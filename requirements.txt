@@ -1,0 +1,7 @@
+asgiref==3.8.1
+Django==4.2.18
+gunicorn==23.0.0
+mysqlclient==2.2.0
+pip==24.2
+sqlparse==0.5.3
+uWSGI==2.0.28
