@@ -45,6 +45,8 @@ services:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     env_file:
       - .env
+    networks:
+      - app_network
     healthcheck:
       test:
         [
