@@ -1,7 +1,7 @@
 services:
   web:
     container_name: nginx
-    build: 
+    build:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
     ports:
@@ -17,9 +17,9 @@ services:
 
   app:
     container_name: django
-    build: 
+    build:
       context: .
-      dockerfile: ./docker/django/Dockerfile  
+      dockerfile: ./docker/django/Dockerfile
     command: gunicorn mySite.wsgi --bind 0.0.0.0:8000
     volumes:
       - ./app:/app
@@ -40,13 +40,25 @@ services:
       dockerfile: ./docker/mysql/Dockerfile
     ports:
       - "3307:3306"
-    volumes: 
+    volumes:
       - db_data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d/
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
     env_file:
       - .env
+    networks:
+      - app_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "testuser", "-ptestuser"]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "127.0.0.1",
+          "-u",
+          "testuser",
+          "-ptestuser",
+        ]
       interval: 10s
       timeout: 10s
       retries: 3
@@ -55,8 +67,6 @@ services:
 volumes:
   db_data:
 
-
 networks:
   app_network:
     driver: bridge
-
