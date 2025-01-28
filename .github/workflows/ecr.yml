@@ -1,0 +1,64 @@
+name: Push to ECR
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリのクローン
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # AWS CLI のセットアップ
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Dockerログイン
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
+            | docker login --username AWS --password-stdin \
+              $(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
+      # Django Dockerイメージのビルド
+      - name: Build Django Docker image
+        run: |
+          docker build -t ${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }} -f ./docker/django/Dockerfile ./docker/django
+
+      # Django Dockerイメージのタグ付け
+      - name: Tag Django Docker image
+        run: |
+          docker tag ${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }} \
+          $(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }}
+
+      # Django Dockerイメージのプッシュ
+      - name: Push Django Docker image to Amazon ECR
+        run: |
+          docker push \
+          $(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }}
+
+      # Nginx Dockerイメージのビルド
+      - name: Build Nginx Docker image
+        run: |
+          docker build -t ${{ secrets.NGINX_ECR_REPOSITORY }}:${{ secrets.NGINX_IMAGE_TAG }} -f ./docker/nginx/Dockerfile ./docker/nginx
+
+      # Nginx Dockerイメージのタグ付け
+      - name: Tag Nginx Docker image
+        run: |
+          docker tag ${{ secrets.NGINX_ECR_REPOSITORY }}:${{ secrets.NGINX_IMAGE_TAG }} \
+          $(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.NGINX_ECR_REPOSITORY }}:${{ secrets.NGINX_IMAGE_TAG }}
+
+      # Nginx Dockerイメージのプッシュ
+      - name: Push Nginx Docker image to Amazon ECR
+        run: |
+          docker push \
+          $(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.NGINX_ECR_REPOSITORY }}:${{ secrets.NGINX_IMAGE_TAG }}
