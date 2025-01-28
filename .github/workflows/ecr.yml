@@ -32,7 +32,7 @@ jobs:
       # Django Dockerイメージのビルド
       - name: Build Django Docker image
         run: |
-          docker build -t ${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }} -f ./docker/django/Dockerfile ./docker/django
+          docker build -t ${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }} -f ./docker/django/Dockerfile .
 
       # Django Dockerイメージのタグ付け
       - name: Tag Django Docker image
@@ -49,7 +49,7 @@ jobs:
       # Nginx Dockerイメージのビルド
       - name: Build Nginx Docker image
         run: |
-          docker build -t ${{ secrets.NGINX_ECR_REPOSITORY }}:${{ secrets.NGINX_IMAGE_TAG }} -f ./docker/nginx/Dockerfile ./docker/nginx
+          docker build -t ${{ secrets.NGINX_ECR_REPOSITORY }}:${{ secrets.NGINX_IMAGE_TAG }} -f ./docker/nginx/Dockerfile .
 
       # Nginx Dockerイメージのタグ付け
       - name: Tag Nginx Docker image
