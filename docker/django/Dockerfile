@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY app/ /app/
 
-COPY ./docker/django/requirements.txt /app/
+COPY ./requirements.txt /app/
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
