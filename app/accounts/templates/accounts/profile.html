@@ -1,6 +1,5 @@
 <h1>ユーザ情報</h1>
 <p>ユーザ名:{{ request.user.username }}</p>
-<p>メールアドレス:{{ request.user.email }}</p>
 
 <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}

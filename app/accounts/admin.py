@@ -6,22 +6,21 @@ from .models import User
 class CustomUserAdmin(UserAdmin):
     list_display = (
         'username',
-        'email',
         "is_staff",
         "is_active",
     )
 
-    search_fields = ('username', 'email')
+    search_fields = ('username',)
 
-    ordering = ('email',) 
+    ordering = ('username',) 
 
-    fieldsets = (('User Info', {'fields': ('username', 'email', 'password')}),)
+    fieldsets = (('User Info', {'fields': ('username', 'password')}),)
 
     add_fieldsets = (
         (
             None,
             {
-                'fields': ('username', 'email', 'password1', 'password2'),
+                'fields': ('username', 'password1', 'password2'),
             },
         ),
     )
