@@ -9,6 +9,8 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    if: github.actor == 'anton-fuji'
+    
     steps:
       # リポジトリのクローン
       - name: Checkout code
