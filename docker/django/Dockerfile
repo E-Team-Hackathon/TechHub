@@ -4,7 +4,8 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=mySite.settings.production
+ENV DJANGO_SETTINGS_MODULE=mySite.settings
+ENV STATIC_ROOT=/app/static/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
@@ -19,8 +20,6 @@ RUN pip install --upgrade pip && \
 
 COPY app/ /app/
 
-RUN python manage.py collectstatic --noinput
-
 EXPOSE 8000
 
-CMD [ "gunicorn", "mySite.wsgi:application", "--bind",  "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 mySite.wsgi:application"]

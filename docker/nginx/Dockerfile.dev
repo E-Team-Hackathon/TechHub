@@ -1,0 +1,3 @@
+FROM nginx:alpine
+
+COPY ./docker/nginx/nginx.dev.conf /etc/nginx/nginx.conf

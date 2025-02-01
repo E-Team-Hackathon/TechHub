@@ -21,12 +21,17 @@
 
 3. **コンテナの起動**
    - アプリケーションを起動するには、以下を実行してください
+   **【本番環境】**
      ```bash
      docker compose up 
      ```
    - バックグラウンドで実行したい場合
      ```bash
      docker compose up -d
+     ```
+    **【開発環境】**
+     ```bash
+     docker compose -f docker-compose.dev.yml up --build
      ```
 
 4. **ブラウザでアクセス**
@@ -41,6 +46,10 @@
      ```bash
      docker compose down
      ```
+    **【開発環境】**
+    ```bash
+    docker-compose -f docker-compose.dev.yml down
+    ```
 
 
 ### デバッグ方法
@@ -56,6 +65,11 @@
      docker logs nginx
      docker logs mysql
      ```
+
+    - ネットワークの状態確認
+    ```
+    docker network inspect dev_network 
+    ```
 
 
 ### ブランチ命名規則
