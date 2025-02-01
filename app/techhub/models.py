@@ -4,7 +4,7 @@ from django.db import models
 User = get_user_model()
 
 class Feed(models.Model):
-    feed_url = models.CharField(max_length=255)
+    feed_url = models.URLField(max_length=255)
     feed_name = models.CharField(max_length=255)  
 
 class Contributor(models.Model):
@@ -16,7 +16,7 @@ class Contributor(models.Model):
 class Article(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    url = models.CharField(max_length=255)
+    url = models.URLField(max_length=255)
     site_name = models.CharField(max_length=255)
     posted_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
