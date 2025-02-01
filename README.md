@@ -48,7 +48,7 @@
      ```
     **【開発環境】**
     ```bash
-    docker-compose -f docker-compose.dev.yml down
+    docker compose -f docker-compose.dev.yml down
     ```
 
 
