@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV DJANGO_SETTINGS_MODULE=mySite.settings
+ENV DJANGO_SETTINGS_MODULE=mySite.settings.dev
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \

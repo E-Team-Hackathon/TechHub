@@ -49,4 +49,3 @@ jobs:
           docker push \
           $(aws sts get-caller-identity --query 'Account' --output text).dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.DJANGO_ECR_REPOSITORY }}:${{ secrets.DJANGO_IMAGE_TAG }}
 
-      
