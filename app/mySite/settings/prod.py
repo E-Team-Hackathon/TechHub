@@ -3,10 +3,12 @@ from dotenv import load_dotenv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
-load_dotenv(env_path)
+# env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+# load_dotenv(env_path)
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+# SECRET_KEY = os.getenv("SECRET_KEY")
+
+SECRET_KEY = 'your-secret-key' 
 
 DEBUG = True
 
