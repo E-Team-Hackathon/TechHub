@@ -1,8 +1,26 @@
-import feedparser
+import feedparser, pytz
 from urllib.parse import urlparse
 from django.core.management.base import BaseCommand
 from techhub.models import Feed, Contributor, Article
 from datetime import datetime
+
+JST = pytz.timezone("Asia/Tokyo")
+
+def parse_datetime(date_str):
+    #pubDate または published を 日本時間に変換
+    formats = [
+        "%a, %d %b %Y %H:%M:%S %Z",  # pubDate のフォーマット
+        "%Y-%m-%dT%H:%M:%S%z"  # published のフォーマット
+    ]
+
+    for format in formats:
+        try:
+            dt = datetime.strptime(date_str, format)  # 文字列 → datetime に変換
+            return dt.astimezone(JST)  # JST に変換
+        except ValueError:
+            continue
+
+    return datetime.now(JST)
 
 class Command(BaseCommand):
     help = 'RSSフィードから記事を取得して保存'
@@ -20,10 +38,9 @@ class Command(BaseCommand):
             for contributor in contributors:
                 # `feed_url` の `{account_name}` を `contributor.account_name` に置換
                 feed_url = feed.feed_url.format(account_name=contributor.account_name)
-
                 domain = urlparse(feed_url).netloc.split(".")[0]  # ドメイン名を取得
-                feed_data = feedparser.parse(feed_url)
 
+                feed_data = feedparser.parse(feed_url)
                 self.stdout.write(f'Fetching articles from {domain} ({feed_url})...')
 
                 if not feed_data.entries:
@@ -33,13 +50,12 @@ class Command(BaseCommand):
                 for entry in feed_data.entries:
                     if Article.objects.filter(url=entry.link).exists():
                         continue  # 既に存在する記事はスキップ
+ 
+                    # # Qiita: published, Zenn: pubDate
+                    posted_at_str = entry.get("published") or entry.get("pubDate")
+                    posted_at = parse_datetime(posted_at_str)
 
-                    # Qiita: published, Zenn: pubDate
-                    posted_at = entry.get('published') or entry.get('pubDate')
-                    try:
-                        posted_at = datetime.strptime(posted_at, '%Y-%m-%dT%H:%M:%S%z') if posted_at else datetime.utcnow()
-                    except ValueError:
-                        posted_at = datetime.utcnow()
+                    self.stdout.write(f"Parsed date: {posted_at} (JST) for article: {entry.title}")
 
                     # 記事を保存
                     Article.objects.create(
