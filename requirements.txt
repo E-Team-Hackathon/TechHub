@@ -7,3 +7,4 @@ sqlparse==0.5.3
 uWSGI==2.0.28
 feedparser
 python-dotenv
+pytz
