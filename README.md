@@ -112,5 +112,6 @@
    Qiita http://qiita.com/{account_name}/feed.atom
    Zenn https://zenn.dev/{account_name}/feed
 6. Djnago 管理画面　：localhost:8001/admin/
-   　　 techhub サイト 　：localhost:8001/techhub/ 7.　記事取得コマンドはカスタムコマンドで設定
-   　　　 docker exec -it django-dev python3 manage.py fetch_articles
+   techhub サイト 　：localhost:8001/techhub/
+7. 記事取得コマンドはカスタムコマンドで設定
+   docker exec -it django-dev python3 manage.py fetch_articles
