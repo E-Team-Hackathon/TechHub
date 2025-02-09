@@ -18,6 +18,6 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     url = models.URLField(max_length=255)
     site_name = models.CharField(max_length=255)
-    posted_at = models.DateTimeField(auto_now_add=True)
+    posted_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     
