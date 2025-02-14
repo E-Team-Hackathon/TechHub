@@ -1,7 +1,22 @@
-<h1>ユーザ情報</h1>
-<p>ユーザ名:{{ request.user.username }}</p>
+<div class="profile-container">
+    <h2>アカウント設定</h2>
+    <p>ここにアカウント設定フィールドがくる</p>
 
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">ログアウト</button>
-</form>
+    <h2>投稿者設定</h2>
+
+    <form method="post" class="profile-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_feed">投稿しているサイト</label>
+            {{ form.feed }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_account_name">アカウント名</label>
+            {{ form.account_name }}
+        </div>
+
+        <button type="submit" class="save-button">保存する</button>
+    </form>
+</div>
