@@ -1,0 +1,29 @@
+<h2>MyPage</h2>
+
+<h3>アカウント設定</h3>
+
+<ul>
+    <!-- ここにユーザーアイコンがくる -->
+    <p>ユーザーアイコン</p>
+    <li><strong>ユーザー名:</strong> {{ user.username }}</li>
+</ul>
+<button type="submit">アカウントを編集する</button>
+<button type="submit">記事を掲載する</button>
+
+<h3>お気に入り</h3>
+<input placeholder="検索バー">
+
+<ul>
+    {% for article in articles %}
+    <li>
+        投稿者：{{article.contributor.account_name}} - ({{ article.posted_at|date:"Y-m-d H:i" }})
+        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+        ({{ article.site_name }})
+    </li>
+    {% empty %}
+    <li>記事がありません。</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'profile' %}">プロフィールを編集</a> |
+<a href="{% url 'logout' %}">ログアウト</a>
