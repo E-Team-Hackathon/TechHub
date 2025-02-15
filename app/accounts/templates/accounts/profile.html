@@ -3,6 +3,15 @@
     <p>ここにアカウント設定フィールドがくる</p>
 
     <h2>投稿者設定</h2>
+    {% if form.errors %}
+    <div class="error-message">
+        <ul>
+            {% for error in form.non_field_errors %}
+            <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 
     <form method="post" class="profile-form">
         {% csrf_token %}
@@ -16,6 +25,7 @@
             <label for="id_account_name">アカウント名</label>
             {{ form.account_name }}
         </div>
+        {{ forms.ValidationError }}
 
         <button type="submit" class="save-button">保存する</button>
     </form>
