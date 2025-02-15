@@ -16,6 +16,3 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # MEDIA
