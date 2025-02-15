@@ -14,3 +14,15 @@ class ContributorForm(forms.ModelForm):
     class Meta:
         model = Contributor
         fields = ['feed', 'account_name']  # user はログインユーザーから設定されるので不要
+
+    def clean(self):
+        cleaned_data = super().clean()
+        feed = cleaned_data.get("feed")
+        account_name = cleaned_data.get("account_name")
+
+        # すでに同じ feed と account_name の組み合わせが存在するかチェック
+        if Contributor.objects.filter(feed=feed, account_name=account_name).exists():
+            raise forms.ValidationError("このサイトとアカウント名の組み合わせは既に登録されています。")
+
+        return cleaned_data
+

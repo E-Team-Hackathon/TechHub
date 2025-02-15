@@ -27,10 +27,16 @@ def profile(request):
     if request.method == 'POST':
         form = ContributorForm(request.POST)
         if form.is_valid():
-            contributor = form.save(commit=False)
-            contributor.user = user
-            contributor.save()
-            return redirect('mypage')
+            try:
+                contributor = form.save(commit=False)
+                if Contributor.objects.filter(feed=contributor.feed, account_name=contributor.account_name).exists():
+                    form.add_error(None, "このサイトとアカウント名の組み合わせは既に登録されています。")
+                else:
+                    contributor.user = user
+                    contributor.save()
+                    return redirect('mypage')
+            except Exception:
+                form.add_error(None, "登録中にエラーが発生しました: " + str(Exception))
     else:
         form = ContributorForm()
 
