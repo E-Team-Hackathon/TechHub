@@ -17,6 +17,13 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
+
+        # アップロードされたアイコンがある場合、ユーザーのアイコンとして保存
+        if "profile_icon" in self.request.FILES:
+            user.profile_icon = self.request.FILES["profile_icon"] 
+            print(user.profile_icon)
+        user.save()
         login(self.request, user)
         self.object = user
         return redirect(self.get_success_url())
+    
