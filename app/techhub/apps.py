@@ -4,3 +4,6 @@ from django.apps import AppConfig
 class TechhubConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'techhub'
+
+    def ready(self):
+        import techhub.signals

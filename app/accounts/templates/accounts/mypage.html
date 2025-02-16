@@ -1,10 +1,10 @@
 <h2>MyPage</h2>
 
 <h3>アカウント設定</h3>
-
 <ul>
-    <!-- ここにユーザーアイコンがくる -->
-    <p>ユーザーアイコン</p>
+    <img src="{{ request.user.profile_icon.url }}" alt="アイコン" width="50">
+    <!-- デバッグ用: アイコンのデータベース内の値を確認
+    <p>アイコン情報: {{ request.user.profile_icon }}</p> -->
     <li><strong>ユーザー名:</strong> {{ user.username }}</li>
 </ul>
 <button type="submit">アカウントを編集する</button>
