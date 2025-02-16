@@ -1,7 +1,10 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
-
 from . import views
+# MEDIA_URL のリクエストを MEDIA_ROOT にマッピングする
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('signup/', views.SignUpView.as_view(template_name='accounts/signup.html'), name='signup'),
