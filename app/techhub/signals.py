@@ -8,8 +8,4 @@ def fetch_articles_after_contributor_save(sender, instance, created, **kwargs):
   # 投稿者が登録されたらfetch＿articlesが発動される
 
   if created :
-    print(f"Fetching articles for: {instance.account_name}")
-
     call_command("fetch_articles")
-
-    print(f"fetch_articles executed for {instance.account_name}")
