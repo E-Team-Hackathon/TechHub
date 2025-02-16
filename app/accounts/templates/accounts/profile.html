@@ -1,6 +1,11 @@
 <div class="profile-container">
     <h2>アカウント設定</h2>
-    <p>ここにアカウント設定フィールドがくる</p>
+    <p>アイコン:
+        <img src="{{ request.user.profile_icon.url }}" alt="アイコン" width="50">
+    </p>
+
+    <!-- デバッグ用: アイコンのデータベース内の値を確認 -->
+    <p>アイコン情報: {{ request.user.profile_icon }}</p>
 
     <h2>投稿者設定</h2>
     {% if form.errors %}
@@ -30,3 +35,8 @@
         <button type="submit" class="save-button">保存する</button>
     </form>
 </div>
+
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">ログアウト</button>
+</form>

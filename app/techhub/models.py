@@ -27,4 +27,3 @@ class Article(models.Model):
     site_name = models.CharField(max_length=255)
     posted_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
-    

@@ -36,6 +36,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # upload_toパラメータで保存先をiconsディレクトリに指定。null=True, blank=Trueは画像の指定がない場合でもエラーをださない設定
+    profile_icon = models.ImageField(upload_to="icons", null=False, blank=True, default='icons/default_icon.jpg')
 
     objects = UserManager()
 
