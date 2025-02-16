@@ -8,16 +8,28 @@
   </head>
   <body>
     <header>
-        <navbar class="navbar navbar-brand" style="background-color: #C5BAFF;">
-            <div class="container">
-            <a class="navbar-brand" href="#">
-            <img src="/static/images/logo_transparent.png" alt="TECHHUBロゴ" width="200" height="100">
-            </a>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid" style="background-color: #C5BAFF;">
+          <a class="navbar-brand" href="#">
+            <img src="app/static/img/logo_transparent.png" alt="TechHubロゴ" width="30" height="24">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="nav">
+              <a class="nav-link active" aria-current="page" href="#">トップページ</a>
+              <!-- <a class="nav-link" href="#">トップページ</a> -->
+              <a class="nav-link" href="#">マイページ</a>
             </div>
-        </navbar>
+            <div class="nav justify-content-end">
+              <a class="nav-link disabled">ユーザー名</a>
+            </div>
+          </div>
+        </div>
+      </nav>
     </header>
-      
-    <br>https://github.com/E-Team-Hackathon/TechHub.git
+    
     <p class="fs-1">ログイン</p>
     <form>
         <div class="container">
@@ -36,7 +48,25 @@
 </html>
 
 <style>
-    nav{
+  
+  nav{
+    color: C5BAFF;
+  }
+  body {
+    margin: 0 auto;
+    color: E8F9FF;
+    background-color: #E8F9FF;
+  }
+  p {
+    font:bold;
+    justify-content: center;
+  }
+  label{
+    font: bold;
+  }
+</style>
+<!-- <style>
+    naver{
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -59,4 +89,4 @@
         justify-content: center;
         
     }
-</style>
+</style> -->
