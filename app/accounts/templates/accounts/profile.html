@@ -1,12 +1,40 @@
-<h1>ユーザ情報</h1>
-<p>ユーザ名:{{ request.user.username }}</p>
+<div class="profile-container">
+    <h2>アカウント設定</h2>
+    <p>アイコン:
+        <img src="{{ request.user.profile_icon.url }}" alt="アイコン" width="50">
+    </p>
 
-<p>アイコン:
-    <img src="{{ request.user.profile_icon.url }}" alt="アイコン" width="50">
-</p>
+    <!-- デバッグ用: アイコンのデータベース内の値を確認 -->
+    <p>アイコン情報: {{ request.user.profile_icon }}</p>
 
-<!-- デバッグ用: アイコンのデータベース内の値を確認 -->
-<p>アイコン情報: {{ request.user.profile_icon }}</p>
+    <h2>投稿者設定</h2>
+    {% if form.errors %}
+    <div class="error-message">
+        <ul>
+            {% for error in form.non_field_errors %}
+            <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="post" class="profile-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_feed">投稿しているサイト</label>
+            {{ form.feed }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_account_name">アカウント名</label>
+            {{ form.account_name }}
+        </div>
+        {{ forms.ValidationError }}
+
+        <button type="submit" class="save-button">保存する</button>
+    </form>
+</div>
 
 <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}

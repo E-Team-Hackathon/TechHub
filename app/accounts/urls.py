@@ -1,18 +1,15 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from . import views
-# MEDIA_URL のリクエストを MEDIA_ROOT にマッピングする
-from django.conf import settings
-from django.conf.urls.static import static
-
+from .views import profile, SignUpView, mypage
 
 urlpatterns = [
-    path('signup/', views.SignUpView.as_view(template_name='accounts/signup.html'), name='signup'),
+    path('signup/', SignUpView.as_view(template_name='accounts/signup.html'), name='signup'),
     path(
         'login/',
         auth_views.LoginView.as_view(redirect_authenticated_user=True,template_name='accounts/login.html'),
         name='login'
     ),
-    path('profile/', views.profile, name='profile'),
+    path('profile/', profile, name='profile'),
+    path('mypage/', mypage, name='mypage'),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 ]
