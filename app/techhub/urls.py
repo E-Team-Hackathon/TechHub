@@ -1,6 +1,6 @@
 from django.urls import path
-from . import views
+from .views import TopPageView
 
 urlpatterns =[
-    path('', views.hello, name='hello'),
+    path('', TopPageView.as_view(), name='toppage'),
 ]

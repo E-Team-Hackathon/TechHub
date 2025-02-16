@@ -24,6 +24,7 @@ services:
     volumes:
       - ./app:/app
       - ./app/static:/app/static
+      - ./app/media:/app/media # プロフィールアイコン表示用
     ports:
       - "8001:8000"
     tty: true

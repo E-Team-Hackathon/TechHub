@@ -1,35 +1,52 @@
-{% "_formhelper.html" import render_field %}
-{% extend 'base.html' %}
+<!DOCTYPE html>
+<html lang="ja">
 
-{%block title %}トップページ画面{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>トップページ</toppupe-ji></title>
+</head>
 
-{% block content %}
-<main>
+<body>
+    <h1>Members</h1>
+    <ul>
+        {% for username in contributors %}
+        <li>
+            <a href="{{ article.url }}" target="_blank">{{ username }}</a>
+        </li>
+        {% empty %}
+        <li>登録された投稿者はいません。</li>
+        {% endfor %}
+    </ul>
+
+    <h1>最新の記事</h1>
+    <ul>
+        {% for article in articles %}
+        <li>
+            <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+            投稿者：{{article.contributor.account_name}}
+            ({{ article.site_name }}) - {{ article.posted_at|date:"Y-m-d H:i" }}
+        </li>
+        {% empty %}
+        <li>記事がありません。</li>
+        {% endfor %}
+    </ul>
+
+    <!-- ページネーション -->
+    {% if is_paginated %}
     <div>
-        <h2>
-            TechHub（ロゴ）
-        </h2>
-        <div>
-            <h3>
-                Members
-            </h3>
-            <div>
-                <a class="" href="#"></a>
-            </div>
-        </div>
-        <div class="container text-center">
-            <h3>
-                Articles
-            </h3>
-            <div class="row row-cols-2">
-              <div class="col">Column</div>
-              <div class="col">Column</div>
-              <div class="col">Column</div>
-              <div class="col">Column</div>
-            </div>
-          </div>
+        {% if page_obj.has_previous %}
+        <a href="?page=1">最初</a>
+        <a href="?page={{ page_obj.previous_page_number }}">前へ</a>
+        {% endif %}
 
+        <span>ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">次へ</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">最後</a>
         {% endif %}
     </div>
-</main>
-{% endblock content %}
+    {% endif %}
+</body>
+
+</html>
