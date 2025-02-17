@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<hyml lang="ja">
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        
+        <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+        <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+        <!-- <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap" rel="stylesheet"> -->
+        <link rel="stylesheet" href="app/css/style.css">
+        <link rel="stylesheet" href="{{url_for('static',filename='css/reset.css')}}">
+        <link rel="stylesheet" href="{{url_for('static, filename='css/styles.css)}}">
+    {% endblock haed %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #C5BAFF;">
+    <div class="container-fluid">
+        <div id="container">
+          <a class="navbar-brand" href="#">
+            <img src="app/static/img/logo_transparent.png" alt="TechHubロゴ" width="30" height="24">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <ul id="nav">
+                <li><a class="nav-links" href="{{url_for('techhub.toppage')}}">トップページ</a></li>
+                <li><a class="nav-links" href="{{ url_for('techhub.mypage')}}">マイページ</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a class="nav-username" href="#">ユーザー名</a></li>
+                <li><a href="{{ url_for('techhub.logout')}}">ログアウト</a></li>
+                {% endif %}
+        </div>
+        {% block content %}
+        {% endblock content %}
+    </div>
+    </nav>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</hyml>
+
+<!-- <style>
+    :root {
+    --white:#e9eff6;
+    --black:#162d34;
+    --gray:#d1d5db;
+    --blue:#67c4e1;
+    --green:#3bba00;
+    --red:#FF0000;
+    --dark_gray:#9B9B9B;
+    --light_gray:#dfe3ea;
+    --orange:#ff7a00;
+}
+html, 
+body {
+    margin: 0 auto;
+    color: C5BAFF;
+    font-family: 'BIZ UDPGothic', sans-serif;
+}
+
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.blue-button > a, .green-button > a, .gray-button > a, .red-button > a, .orange-button > a {
+    color: white;
+}
+
+
+
+button {
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    border-radius: 6px;
+    color: var(--white);
+}
+
+.green-button {
+    background-color: var(--green);
+}
+
+.blue-button {
+    background-color: var(--blue);
+}
+
+.red-button {
+    background-color: var(--red);
+
+}
+
+.gray-button {
+    background-color: var(--dark_gray);
+
+}
+
+.orange-button {
+    background-color: var(--orange);
+}
+
+
+#header {
+    background-color: var(--blue);
+    color: var(--white);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+
+#nav {
+    display: flex;
+    gap: 3rem;
+    margin: 0 auto;
+}
+
+.nav-links {
+    color: var(--white);
+    display: block;
+    padding: 14px;
+}
+
+.nav-links:hover {
+    color: var(--black);
+} -->
