@@ -1,50 +1,57 @@
 <!DOCTYPE html>
-<hyml lang="ja">
-<head>
-    {% block head %}
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>
-            {% block title %}
-            {% endblock title %}
-        </title>
+<html lang="ja">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        
-        <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-        <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-        <!-- <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap" rel="stylesheet"> -->
-        <link rel="stylesheet" href="app/css/style.css">
-        <link rel="stylesheet" href="{{url_for('static',filename='css/reset.css')}}">
-        <link rel="stylesheet" href="{{url_for('static, filename='css/styles.css)}}">
-    {% endblock haed %}
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic&display=swap" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="app/css/style.css"> -->
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #C5BAFF;">
-    <div class="container-fluid">
-        <div id="container">
-          <a class="navbar-brand" href="#">
-            <img src="app/static/img/logo_transparent.png" alt="TechHubロゴ" width="30" height="24">
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-            <ul id="nav">
-                <li><a class="nav-links" href="{{url_for('techhub.toppage')}}">トップページ</a></li>
-                <li><a class="nav-links" href="{{ url_for('techhub.mypage')}}">マイページ</a></li>
-                {% if current_user.is_authenticated %}
-                <li><a class="nav-username" href="#">ユーザー名</a></li>
-                <li><a href="{{ url_for('techhub.logout')}}">ログアウト</a></li>
-                {% endif %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #C5BAFF;">
+        <div class="container-fluid">
+            <div id="container">
+                <a class="navbar-brand" href="#">
+                    <img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ" width="30" height="24">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <ul id="nav">
+                    <li><a class="nav-links" href="{% url 'toppage' %}">トップページ</a></li>
+                    <li><a class="nav-links" href="{% url 'mypage' %}">マイページ</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li><a class="nav-username" href="#">{{ request.user.username }}</a></li>
+                    <li><a href="{% url 'logout' %}">ログアウト</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% block content %}
+            {% endblock content %}
         </div>
-        {% block content %}
-        {% endblock content %}
-    </div>
     </nav>
-  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
 </body>
 </hyml>
 
