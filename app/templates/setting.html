@@ -1,9 +1,9 @@
-{% from "_formhelpers.html" import render_field %}
 {% extends 'base.html' %}
 
 {% block title %}アカウント設定画面{% endblock %}
 
 {% block content %}
+{% include "_formhelpers.html" %}
 <main>
     <h2>
         設定
@@ -11,7 +11,8 @@
     <div class="container">
         <div class="user-settings-container">
             <h3>アカウント設定</h3>
-            <input type="username" class="form-control" id="InputUsername" placeholder="{{ current_user.username}}" required >
+            <input type="username" class="form-control" id="InputUsername" placeholder="{{ request.user.username}}"
+                required>
             <h4>プロフィール画像</h4>
             <button class="blue-button save-botton">
                 <a class="" href="" role="button">保存する</a>
