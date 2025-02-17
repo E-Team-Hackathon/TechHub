@@ -1,28 +1,28 @@
-{% from "_formhelpers.html" import render_field %}
 {% extends 'base.html' %}
 
 {% block title %}ログイン画面{% endblock %}
 
 {% block content %}
+{% include "_formhelpers.html" %}
 <main>
     <h2>ログインして下さい</h2>
     <form method="POST">
+        {% csrf_token %}
         <label for="InputEmail" class="form-label">ユーザー名</label>
-        <input type="username" class="form-control" id="InputUsername" placeholder="Mattermost名" required >
+        <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Mattermost名" required>
+
         <label for="InputPassword" class="form-label">パスワード</label>
-        <input type="password" class="form-control" id="InputPassword" required>
+        <input type="password" class="form-control" id="InputPassword" name="password" required>
         <div>
-            <button type="login" class="btn btn-primary">ログイン</button>
+            <button type="submit" class="btn btn-primary">ログイン</button>
         </div>
-        {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <ul class="flashes">
+        <ul class="flashes">
             {% for message in messages %}
-                <li>{{ message }}</li>
+            <li>{{ message }}</li>
             {% endfor %}
-            </ul>
+        </ul>
         {% endif %}
-        {% endwith %}
     </form>
-</main>    
+</main>
 {% endblock content %}
