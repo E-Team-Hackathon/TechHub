@@ -10,8 +10,8 @@ from .forms.contributor import ContributorForm
 
 class SignUpView(CreateView):
     form_class = SignUpForm
-    success_url = reverse_lazy("mypage")
-    template_name = "accounts/signup.html"
+    success_url = reverse_lazy('mypage')
+    template_name = 'signup.html'
 
     def form_valid(self, form):
         user = form.save()
@@ -37,11 +37,11 @@ def profile(request):
                     contributor.save()
                     return redirect('mypage')
             except Exception:
-                form.add_error(None, "登録中にエラーが発生しました: " + str(Exception))
+                form.add_error(None, '登録中にエラーが発生しました:' + str(Exception))
     else:
         form = ContributorForm()
 
-    return render(request,'accounts/profile.html',{'form': form, 'contributors': contributors})
+    return render(request,'profile.html',{'form': form, 'contributors': contributors})
 
 @login_required
 def mypage(request):
@@ -49,7 +49,7 @@ def mypage(request):
     contributors = Contributor.objects.filter(user=user)  # ユーザーの登録したフィード情報
     articles = Article.objects.all().order_by('-posted_at')  # 記事一覧（新着順）
 
-    return render(request, 'accounts/mypage.html', {
+    return render(request, 'mypage.html', {
         'user': user,
         'contributors': contributors,
         'articles': articles,
