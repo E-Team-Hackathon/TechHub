@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}アカウント設定画面{% endblock %}
+
+{% block content %}
+{% include "_formhelpers.html" %}
+<main>
+    <h2>
+        設定
+    </h2>
+    <div class="container">
+        <div class="user-settings-container">
+            <h3>アカウント設定</h3>
+            <input type="username" class="form-control" id="InputUsername" placeholder="{{ request.user.username}}"
+                required>
+            <h4>プロフィール画像</h4>
+            <button class="blue-button save-botton">
+                <a class="" href="" role="button">保存する</a>
+            </button>
+            <button class="blue-button user-delete-botton">
+                <a class="" href="" role="button">アカウントを削除する</a>
+            </button>
+        </div>
+        <div class="contributor-settings-container">
+            <h3>投稿者設定</h3>
+            <h4>投稿している記事サイト</h4>
+            <input list="feed-name-list" id="feed-name-choice" name="feed-name-choice" />
+            <datalist id="feed-name-list">
+                <option value="Qiita"></option>
+                <option value="Zenn"></option>
+            </datalist>
+            <br>
+            <input type="accountID" class="form-control" id="InputAccountID">
+            <button class="blue-button save-botton">
+                <a class="" href="" role="button">保存する</a>
+            </button>
+        </div>
+    </div>
+</main>
+{% endblock content %}
