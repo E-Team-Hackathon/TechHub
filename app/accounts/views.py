@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
@@ -14,11 +15,18 @@ class SignUpView(CreateView):
     template_name = 'signup.html'
 
     def form_valid(self, form):
-        user = form.save()
+        try:
+            user = form.save(commit=True)
 
-        login(self.request, user)
-        self.object = user
-        return redirect(self.get_success_url())
+            login(self.request, user) 
+            messages.success(self.request, 'アカウントが作成されました！')
+            
+            self.object = user
+            return redirect(self.get_success_url())
+        
+        except Exception as e:
+            form.add_error(None, f'登録中にエラーが発生しました: {str(e)}') 
+            return self.form_invalid(form)
 
 @login_required
 def profile(request):
@@ -31,7 +39,7 @@ def profile(request):
             try:
                 contributor = form.save(commit=False)
                 if Contributor.objects.filter(feed=contributor.feed, account_name=contributor.account_name).exists():
-                    form.add_error(None, "このサイトとアカウント名の組み合わせは既に登録されています。")
+                    form.add_error(None, 'このサイトとアカウント名の組み合わせは既に登録されています')
                 else:
                     contributor.user = user
                     contributor.save()
