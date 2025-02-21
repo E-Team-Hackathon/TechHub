@@ -23,7 +23,7 @@
         {% for article in articles %}
         <li>
             <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-            投稿者：{{article.contributor.account_name}}
+            投稿者：{{article.contributor.user.username}}
             ({{ article.site_name }}) - {{ article.posted_at|date:"Y-m-d H:i" }}
         </li>
         {% empty %}
