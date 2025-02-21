@@ -4,6 +4,9 @@
 
 {% block content %}
 {% include "_formhelpers.html" %}
+{% load static %}
+<img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ">
+
 <main>
   <h2>登録してください</h2>
   <form method="post" enctype="multipart/form-data">
@@ -28,6 +31,20 @@
       {% endfor %}
     </ul>
     {% endif %}
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        <li>{{ field }}: {{ error }}</li>
+        {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </form>
+
 </main>
+
 {% endblock content %}

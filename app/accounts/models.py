@@ -31,7 +31,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(unique=True, max_length=255)
+    username = models.CharField(
+        unique=True, 
+        max_length=255,
+        verbose_name='ユーザー名',
+        help_text='Mattermost名を入力ください')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

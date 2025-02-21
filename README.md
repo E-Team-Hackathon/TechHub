@@ -97,36 +97,46 @@
 
 ## 環境構築\_開発（コンテナ起動後）
 
-1. .env ファイルがあることを確認（.env ファイルについては当ファイルの上部を参照）
+1. .env ファイルがあることを確認（.env ファイル中身については当ファイルの上部を参照）
 
 2. 以下のコマンドでコンテナ内で migrate する
-   '''bash
+
+   ```
    docker exec -it django-dev python3 manage.py migrate
-   '''
-   これにより MySQL コンテナ内に DB が migrations ファイルにより作成される。
+   ```
+
+   <br>これにより MySQL コンテナ内に DB が migrations ファイルにより作成される。</br>
 
 3. 本当に DB できてるか確認するなら以下のコマンドで MySQL コンテナに入る
-   '''bash
+
+   ```
    docker exec -it mysql bash
    mysql -u testuser -p
-   '''
+   ```
 
-   パスワードは.env 参照
-   mysql から出る時は exit
+   パスワードは.env 参照<br>mysql から出る時は exit</br>
 
 4. Django 管理画面が使用できるように superuser 設定
-   '''bash
+   ```
    docker exec -it django-dev python3 manage.py createsuperuser
-   '''
+   ```
 5. Feed 情報 Django 管理画面で以下を設定
 
    Qiita http://qiita.com/{account_name}/feed.atom
-   Zenn https://zenn.dev/{account_name}/feed
+   <br>Zenn https://zenn.dev/{account_name}/feed</br>
 
 6. Djnago 管理画面　：localhost:8001/admin/
-   techhub サイト 　：localhost:8001/techhub/
+   <br>techhub サイト 　：localhost:8001/techhub/</br>
+   accounts 関係　　：localhost:8001/accounts/
 
 7. 記事取得コマンドはカスタムコマンドで設定
-   '''bash
+
+   ```
    docker exec -it django-dev python3 manage.py fetch_articles
-   '''
+   ```
+
+8. static ファイルをまとめて staticfiles ディレクトリに集める　 → これをすると管理画面に CSS があたる
+   staticfiles ディレクトリに 140 くらいのファイルが作成される。admin 関係のファイルもあるから、びっくりしない。
+   ```
+   docker exec -it django-dev python3 manage.py collectstatic
+   ```
