@@ -130,6 +130,13 @@
    accounts 関係　　：localhost:8001/accounts/
 
 7. 記事取得コマンドはカスタムコマンドで設定
+
    ```
    docker exec -it django-dev python3 manage.py fetch_articles
+   ```
+
+8. static ファイルをまとめて staticfiles ディレクトリに集める　 → これをすると管理画面に CSS があたる
+   staticfiles ディレクトリに 140 くらいのファイルが作成される。admin 関係のファイルもあるから、びっくりしない。
+   ```
+   docker exec -it django-dev python3 manage.py collectstatic
    ```
