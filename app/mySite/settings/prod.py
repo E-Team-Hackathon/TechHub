@@ -1,7 +1,6 @@
-import os
-from dotenv import load_dotenv
+from pathlib import Path,os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 # load_dotenv(env_path)
@@ -12,7 +11,7 @@ SECRET_KEY = 'your-secret-key'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['mytechhub.blog']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -46,7 +45,7 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
 TIME_ZONE = 'Asia/Tokyo'
 
@@ -58,7 +57,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -91,15 +91,20 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+# データベースセッションを使用
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage' 
+
+
 USE_I18N = True
 
 USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.User'
 
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'mypage'
 
-LOGOUT_REDIRECT_URL = '/accounts/login'
+LOGOUT_REDIRECT_URL = 'toppage'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -112,3 +117,7 @@ if os.getenv("DJANGO_ENV") == "development":
     STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# メディアファイルの保存先を定義
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
