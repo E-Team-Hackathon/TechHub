@@ -1,5 +1,8 @@
 from django.views.generic import ListView
-from .models import Article, Contributor
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
+from .models import Article, Contributor, Favorite
 
 class TopPageView(ListView):
     model = Article
@@ -17,5 +20,24 @@ class TopPageView(ListView):
         unique_users = Contributor.objects.select_related('user').values('user__username').distinct()
         #辞書型リストのunique_usersをリストに変換
         context['contributors'] = [user['user__username'] for user in unique_users]
-        print('contributors')
+
+         # **ログインしている場合、お気に入りの記事を取得**
+        if self.request.user.is_authenticated:
+            context['favorite_articles'] = Favorite.objects.filter(user=self.request.user).values_list('article_id', flat=True)
+        else:
+             context['favorite_articles'] = []
+       
         return context
+    
+@login_required
+def toggle_favorite(request,article_id):
+    article = get_object_or_404(Article, id=article_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user,article=article)
+
+    if not created:
+        favorite.delete()
+        messages.success(request, f'「{article.title}」をお気に入りから削除しました')
+    else:
+        messages.success(request, f'「{article.title}」をお気に入りに追加しました')
+    
+    return redirect('mypage') 

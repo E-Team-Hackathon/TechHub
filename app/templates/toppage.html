@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>トップページ</toppupe-ji></title>
-</head>
+{% block title %}トップページ画面{% endblock %}
 
-<body>
+{% block content %}
+{% load static %}
+
+<main>
     <h1>Members</h1>
     <ul>
         {% for username in contributors %}
@@ -25,6 +24,19 @@
             <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
             投稿者：{{article.contributor.user.username}}
             ({{ article.site_name }}) - {{ article.posted_at|date:"Y-m-d H:i" }}
+            {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'toggle_favorite' article.id %}">
+                {% csrf_token %}
+                {% if article.id in favorite_articles %}
+                <button type="submit">💚 お気に入り解除</button>
+                {% else %}
+                <button type="submit">🩶 お気に入り追加</button>
+                {% endif %}
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}?next={% url 'toppage' %}">ログインしてお気に入り登録</a>
+            {% endif %}
+
         </li>
         {% empty %}
         <li>記事がありません。</li>
@@ -47,6 +59,7 @@
         {% endif %}
     </div>
     {% endif %}
-</body>
 
-</html>
+</main>
+
+{% endblock content %}

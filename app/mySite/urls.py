@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 from accounts.views import profile, SignUpView, mypage
+from techhub.views import toggle_favorite
+
 # MEDIA_URL のリクエストを MEDIA_ROOT にマッピングする
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,9 +18,10 @@ urlpatterns = [
         name='login'
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path('profile/', profile, name='profile'),
-    path('mypage/', mypage, name='mypage'),
+    path('profile/', login_required(profile), name='profile'),
+    path('mypage/', login_required(mypage), name='mypage'),
     path('techhub/', include('techhub.urls')),
+    path('favorite/<int:article_id>', login_required(toggle_favorite), name='toggle_favorite'),
 ]
 
 if settings.DEBUG:
