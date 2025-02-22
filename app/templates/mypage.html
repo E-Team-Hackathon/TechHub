@@ -11,6 +11,22 @@
         <h2>
             ようこそ！{{ request.user.username }}さん
         </h2>
+
+        <h2>お気に入り記事一覧</h2>
+
+        {% if favorite_articles %}
+        <ul>
+            {% for favorite in favorite_articles %}
+            <li>
+                <a href="{{ favorite.article.url }}" target="_blank">{{ favorite.article.title }}</a>
+                ({{ favorite.article.site_name }}) - {{ favorite.article.posted_at|date:"Y-m-d H:i" }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>お気に入り登録された記事はありません。</p>
+        {% endif %}
+
         <!-- ログインしていない場合 -->
         {% else %}
         <h2>
