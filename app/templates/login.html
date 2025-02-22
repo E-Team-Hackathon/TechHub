@@ -1,28 +1,40 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}ログイン画面{% endblock %}
 
+{% block content_title %}ログイン{% endblock content_title%} 
+
 {% block content %}
 {% include "_formhelpers.html" %}
-<main>
-    <h2>ログインして下さい</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="InputEmail" class="form-label">ユーザー名</label>
-        <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Mattermost名" required>
+{% comment %} {% include "_formhelpers.html" %} {% endcomment %}
+{% load static %}
 
-        <label for="InputPassword" class="form-label">パスワード</label>
-        <input type="password" class="form-control" id="InputPassword" name="password" required>
-        <div>
-            <button type="submit" class="btn btn-primary">ログイン</button>
-        </div>
-        {% if messages %}
+<div class="container-lg">
+<div class="">
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+    <label for="InputEmail" class="form-label">ユーザー名</label>
+    <input type="username" class="form-control" id="InputUsername" placeholder="Mattermost名" required >
+    </div>
+    <div class="mb-3">
+    <label for="InputPassword" class="form-label">パスワード</label>
+    <input type="password" class="form-control" id="InputPassword" required>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">ログイン</button>
+    </div>
+    {% comment %} {% with messages = get_flashed_messages() %} {% endcomment %}
+    {% if messages %}
         <ul class="flashes">
-            {% for message in messages %}
+        {% for message in messages %}
             <li>{{ message }}</li>
-            {% endfor %}
+        {% endfor %}
         </ul>
-        {% endif %}
-    </form>
-</main>
+    {% endif %}
+    {% comment %} {% endwith %} {% endcomment %}
+</form>
+</div>
+</div>
+
 {% endblock content %}
