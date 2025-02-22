@@ -8,6 +8,7 @@
 
 {% block content %}
 {% load static %}
+<<<<<<< HEAD
 
 <!-- アカウント設定 セクション -->
 <div class="p-3 mb-2 bg-body-tertiary rounded-3">
@@ -28,6 +29,39 @@
                style="object-fit: cover;">
           <!-- ユーザー名 -->
           <p class="fw-bold mb-0">{{ user.username }}</p>
+=======
+<main>
+    <div>
+        <!-- ログインが成功している場合 -->
+        {% if request.user.is_authenticated %}
+        <h2>
+            ようこそ！{{ request.user.username }}さん
+        </h2>
+
+        <h2>お気に入り記事一覧</h2>
+
+        {% if favorite_articles %}
+        <ul>
+            {% for favorite in favorite_articles %}
+            <li>
+                <a href="{{ favorite.article.url }}" target="_blank">{{ favorite.article.title }}</a>
+                ({{ favorite.article.site_name }}) - {{ favorite.article.posted_at|date:"Y-m-d H:i" }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>お気に入り登録された記事はありません。</p>
+        {% endif %}
+
+        <!-- ログインしていない場合 -->
+        {% else %}
+        <h2>
+            ログイン or ユーザー登録をして下さい
+        </h2>
+        <div>
+            <a href="{% url 'login' %}" class="btn btn-primary">ログイン</a>
+            <a href="{% url 'signup' %}" class="btn btn-secondary">登録</a>
+>>>>>>> origin/develop
         </div>
 
         <!-- アクションボタン（右側） -->

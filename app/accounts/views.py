@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
 from .forms.signup import SignUpForm
-from techhub.models import Article, Contributor
+from techhub.models import Article, Contributor, Favorite
 from .forms.contributor import ContributorForm  
 
 class SignUpView(CreateView):
@@ -56,9 +56,11 @@ def mypage(request):
     user = request.user
     contributors = Contributor.objects.filter(user=user)  # ユーザーの登録したフィード情報
     articles = Article.objects.all().order_by('-posted_at')  # 記事一覧（新着順）
+    favorite_articles = Favorite.objects.filter(user=user).select_related('article')
 
     return render(request, 'mypage.html', {
         'user': user,
         'contributors': contributors,
         'articles': articles,
+        'favorite_articles':favorite_articles
     })

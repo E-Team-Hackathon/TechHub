@@ -1,27 +1,14 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="ja">
 
-{% block title %}トップページ{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>トップページ</toppupe-ji></title>
+</head>
 
-{% block content_title %}{% endblock content_title %}
-
-{% block content %}
-{% load static %}
-
-<!-- ブランドロゴ -->
-<div class="container d-flex justify-content-center align-items-center" 
-     style="width: 480px; height: 120px; overflow: hidden;">
-  <a>
-    <img src="{% static 'img/logo_transparent.png' %}" 
-         alt="TechHubロゴ"
-         style="width: 480px; height: 480px; object-fit: cover; object-position: center;">
-  </a>
-</div>
-
-<!-- Members -->
-<div class="p-3 mb-2 bg-body-tertiary rounded-3">
-  <div class="container-fluid border rounded-4 py-2" style="background-color: #FBFBFB; border-radius: 20px;">
-    <h3 class="display-3" style="font-family: 'Montserrat', sans-serif;">Members</h3>
-      <ul class="d-flex flex-wrap list-unstyled p-2">
+<body>
+    <h1>Members</h1>
+    <ul>
         {% for username in contributors %}
         <li class="d-flex flex-column align-items-center me-3 mb-3">
           <!-- ユーザーアイコン -->
@@ -58,23 +45,23 @@
     <div class="container mt-4">
       <div class="row">
         {% for article in articles %}
-        <div class="col-md-6 mb-3">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-body-secondary">
-                投稿者：{{ article.contributor.user.username }}
-              </h6>
-              <h5 class="card-title">
-                <a class="card-link" href="{{ article.url }}" target="_blank">
-                  {{ article.title }}
-                </a>
-              </h5>
-              <p class="card-text">
-                ({{ article.site_name }}) - {{ article.posted_at|date:"Y-m-d H:i" }}
-              </p>
-            </div>
-          </div>
-        </div>
+        <li>
+            <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+            投稿者：{{article.contributor.user.username}}
+            ({{ article.site_name }}) - {{ article.posted_at|date:"Y-m-d H:i" }}
+        </li>
+        {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'toggle_favorite' article.id %}">
+            {% csrf_token %}
+            {% if article.id in favorite_articles %}
+            <button type="submit">💚 お気に入り解除</button>
+            {% else %}
+            <button type="submit">🩶 お気に入り追加</button>
+            {% endif %}
+        </form>
+        {% else %}
+        <a href="{% url 'login' %}?next={% url 'toppage' %}">ログインしてお気に入り登録</a>
+        {% endif %}
         {% empty %}
         <div class="col-12">
           <li>記事がありません。</li>
@@ -95,11 +82,12 @@
 
     <span>ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
 
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">次へ</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">最後</a>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">次へ</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">最後</a>
+        {% endif %}
+    </div>
     {% endif %}
-</div>
-{% endif %}
+</body>
 
-{% endblock content%}
+</html>

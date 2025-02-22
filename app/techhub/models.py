@@ -27,3 +27,13 @@ class Article(models.Model):
     site_name = models.CharField(max_length=255)
     posted_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'article'],name='unique_favorite')
+        ]
