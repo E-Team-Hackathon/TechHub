@@ -88,6 +88,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'accounts.auth_backend.CustomAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -101,6 +102,8 @@ USE_I18N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'mypage'
 

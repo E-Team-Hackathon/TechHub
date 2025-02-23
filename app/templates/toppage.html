@@ -8,12 +8,11 @@
 {% load static %}
 
 <!-- ブランドロゴ -->
-<div class="container d-flex justify-content-center align-items-center" 
-     style="width: 480px; height: 120px; overflow: hidden;">
+<div class="container d-flex justify-content-center align-items-center"
+  style="width: 480px; height: 120px; overflow: hidden;">
   <a>
-    <img src="{% static 'img/logo_transparent.png' %}" 
-         alt="TechHubロゴ"
-         style="width: 480px; height: 480px; object-fit: cover; object-position: center;">
+    <img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ"
+      style="width: 480px; height: 480px; object-fit: cover; object-position: center;">
   </a>
 </div>
 
@@ -21,20 +20,19 @@
 <div class="p-3 mb-2 bg-body-tertiary rounded-3">
   <div class="container-fluid border rounded-4 py-2" style="background-color: #FBFBFB; border-radius: 20px;">
     <h3 class="display-6 pt-3 ms-3" style="font-family: 'Montserrat', sans-serif;">Members</h3>
-      <ul class="d-flex flex-wrap list-unstyled p-3">
-        {% for username in contributors %}
-        <li class="d-flex flex-column align-items-center me-3 mb-3">
-          <!-- ユーザーアイコン -->
-          <img src="{{ request.user.profile_icon.url }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
-          <!-- ユーザー名 -->
-          <h6 href="{{ article.url }}" target="_blank" class="text-decoration-none text-center">
-            {{ username }}
-          </h6>
-        </li>
-        {% empty %}
-        <li>登録された投稿者はいません。</li>
-        {% endfor %}
-      </ul>
+    <ul class="d-flex flex-wrap list-unstyled p-3">
+      {% for username in contributors %}
+      <li class="d-flex flex-column align-items-center me-3 mb-3">
+        <!-- ユーザーアイコン -->
+        <img src="{{ user.profile_icon.url }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
+        <!-- ユーザー名 -->
+        <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-center">
+          <h6>{{ username }}</h6>
+      </li>
+      {% empty %}
+      <li>登録された投稿者はいません。</li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 
@@ -45,11 +43,11 @@
     <h3 class="display-6 pt-3 ms-3" style="font-family: 'Montserrat', sans-serif;">Articles</h3>
 
     <!-- 検索バー -->
-    <form class="d-flex my-3">
-      <input class="form-control mx-3 shadow-sm rounded-pill" type="search" 
-             placeholder="記事を検索..." aria-label="Search"style="padding: 10px 20px; font-size: 16px;">
-      <button class="btn btn-primary rounded-pill d-flex align-items-center justify-content-center me-2" type="submit" 
-             style="padding: 10px 20px; font-size: 16px; height: auto; min-width: 100px; border: none;">
+    <form method='GET' action="{% url 'search' %}" class="d-flex my-3">
+      <input type="text" name='query' id='id_query' class="form-control mx-3 shadow-sm rounded-pill"
+        placeholder="記事を検索..." aria-label="Search" style="padding: 10px 20px; font-size: 16px;">
+      <button type="submit" class="btn btn-primary rounded-pill d-flex align-items-center justify-content-center me-2"
+        style="padding: 10px 20px; font-size: 16px; height: auto; min-width: 100px; border: none;">
         検索
       </button>
     </form>
@@ -59,42 +57,42 @@
       <div class="row">
         {% for article in articles %}
         <div class="col-md-6 mb-3">
-        <div class="card h-100 shadow-sm">
+          <div class="card h-100 shadow-sm">
             <div class="card-body">
-            <h6 class="card-subtitle mb-1 text-body-secondary">
-                投稿者：{{ article.contributor.user.username }} 
-            </h6>
-            <h5 class="card-title">
+              <h6 class="card-subtitle mb-1 text-body-secondary">
+                投稿者：{{ article.contributor.user.username }}
+              </h6>
+              <h5 class="card-title">
                 <a class="card-link" href="{{ article.url }}" target="_blank">
-                {{ article.title }}
+                  {{ article.title }}
                 </a>
-            </h5>
-            <h6 class="card-text">
-              掲載日時：{{ article.posted_at|date:"Y-m-d H:i" }}
-            </h6>
-            <h5 class="card-text position-absolute bottom-0 end-0 me-2 mb-2">
-              {{ article.site_name }}
-            </h5>
+              </h5>
+              <h6 class="card-text">
+                掲載日時：{{ article.posted_at|date:"Y-m-d H:i" }}
+              </h6>
+              <h5 class="card-text position-absolute bottom-0 end-0 me-2 mb-2">
+                {{ article.site_name }}
+              </h5>
             </div>
             {% if user.is_authenticated %}
             <form method="POST" action="{% url 'toggle_favorite' article.id %}">
-                {% csrf_token %}
-                {% if article.id in favorite_articles %}
-                {% comment %} <button class="position-absolute top-0 end-0" type="submit">💚　お気に入り解除</button> {% endcomment %}
-                <button  type="submit" class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
-                  ★
-                </button>
-                {% else %}
-                {% comment %} <button class="position-absolute top-0 end-0" type="submit">🩶 お気に入り追加</button> {% endcomment %}
-                <button type="submit" class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
-                  ☆
-                </button>
-                {% endif %}
+              {% csrf_token %}
+              {% if article.id in favorite_articles %}
+              <button type="submit"
+                class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
+                ★
+              </button>
+              {% else %}
+              <button type="submit"
+                class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
+                ☆
+              </button>
+              {% endif %}
             </form>
             {% else %}
             <a href="{% url 'login' %}?next={% url 'toppage' %}">ログインしてお気に入り登録</a>
             {% endif %}
-        </div>
+          </div>
         </div>
         {% empty %}
         <div class="col-12">
@@ -109,17 +107,17 @@
 <!-- ページネーション -->
 {% if is_paginated %}
 <div>
-    {% if page_obj.has_previous %}
-    <a href="?page=1">最初</a>
-    <a href="?page={{ page_obj.previous_page_number }}">前へ</a>
-    {% endif %}
+  {% if page_obj.has_previous %}
+  <a href="?page=1">最初</a>
+  <a href="?page={{ page_obj.previous_page_number }}">前へ</a>
+  {% endif %}
 
-    <span>ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+  <span>ページ {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
 
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">次へ</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">最後</a>
-    {% endif %}
+  {% if page_obj.has_next %}
+  <a href="?query={{ query }}&page={{ page_obj.next_page_number }}">次へ</a>
+  <a href="?page={{ page_obj.paginator.num_pages }}">最後</a>
+  {% endif %}
 </div>
 {% endif %}
 
