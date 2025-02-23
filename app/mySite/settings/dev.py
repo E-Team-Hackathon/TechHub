@@ -116,6 +116,8 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'accounts.User'
 
+LOGIN_URL = 'login'
+
 LOGIN_REDIRECT_URL = 'mypage'
 
 LOGOUT_REDIRECT_URL = 'toppage'
