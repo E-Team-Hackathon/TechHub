@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from accounts.views import profile, SignUpView, mypage
+from accounts.views import profile, SignUpView, CustomLoginView, mypage
 from techhub.views import toggle_favorite, article_search
 
 # MEDIA_URL のリクエストを MEDIA_ROOT にマッピングする
@@ -14,7 +14,7 @@ urlpatterns = [
     path('signup/', SignUpView.as_view(template_name='signup.html'), name='signup'),
     path(
         'login/',
-        auth_views.LoginView.as_view(redirect_authenticated_user=True,template_name='login.html'),
+       CustomLoginView.as_view(redirect_authenticated_user=True,template_name='login.html'),
         name='login'
     ),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
