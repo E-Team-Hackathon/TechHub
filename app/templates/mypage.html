@@ -2,145 +2,116 @@
 
 {% block title %}マイページ画面{% endblock %}
 
-<div class="container d-flex justify-content-center align-items-center">
-{% block content_title %}Mypage{% endblock content_title%}
-</div>
+{% block content_title %}{% endblock content_title%}
 
-{% block content %}
-{% load static %}
-<<<<<<< HEAD
 
-<!-- アカウント設定 セクション -->
-<div class="p-3 mb-2 bg-body-tertiary rounded-3">
-    <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
-      <!-- タイトル -->
-      <h4 class="fw-bold mb-4" style="font-family: 'Montserrat', sans-serif;">アカウント設定</h4>
+<!-- ログインが成功している場合 -->
+{% if request.user.is_authenticated %}
 
-      <!-- アカウント情報のレイアウト -->
-      <div class="d-flex align-items-center justify-content-between flex-wrap">
-        <!-- ユーザー情報（左側） -->
-        <div class="d-flex flex-column align-items-center">
-          <!-- ユーザーアイコン（大きく表示） -->
-          <img src="{{ request.user.profile_icon.url }}" 
-               alt="アイコン" 
-               class="rounded-circle mb-2" 
-               width="100" 
-               height="100" 
-               style="object-fit: cover;">
-          <!-- ユーザー名 -->
-          <p class="fw-bold mb-0">{{ user.username }}</p>
-=======
-<main>
-    <div>
-        <!-- ログインが成功している場合 -->
-        {% if request.user.is_authenticated %}
-        <h2>
-            ようこそ！{{ request.user.username }}さん
-        </h2>
+    {% block content %}
+    {% load static %}
 
-        <h2>お気に入り記事一覧</h2>
-
-        {% if favorite_articles %}
-        <ul>
-            {% for favorite in favorite_articles %}
-            <li>
-                <a href="{{ favorite.article.url }}" target="_blank">{{ favorite.article.title }}</a>
-                ({{ favorite.article.site_name }}) - {{ favorite.article.posted_at|date:"Y-m-d H:i" }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-        <p>お気に入り登録された記事はありません。</p>
-        {% endif %}
-
-        <!-- ログインしていない場合 -->
-        {% else %}
-        <h2>
-            ログイン or ユーザー登録をして下さい
-        </h2>
-        <div>
-            <a href="{% url 'login' %}" class="btn btn-primary">ログイン</a>
-            <a href="{% url 'signup' %}" class="btn btn-secondary">登録</a>
->>>>>>> origin/develop
-        </div>
-
-        <!-- アクションボタン（右側） -->
-        <div class="d-flex flex-column gap-2">
-          <a href="#" class="btn" style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
-            アカウントを編集する
-          </a>
-          <a href="#" class="btn" style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
-            記事を掲載する
-          </a>
-        </div>
-      </div>
+    <div class="container d-flex justify-content-center align-items-center" 
+                style="width: 480px; height: 120px; overflow: hidden;">
+    <h3 class="display-3" style="font-family: 'Montserrat', sans-serif;">Mypage</h3>
+      
     </div>
-</div>
 
-<!-- お気に入り セクション -->
-<div class="p-3 mb-2 bg-body-tertiary rounded-3">
-<div class="container-fluid border rounded-4 py-2" style="background-color: #FBFBFB; border-radius: 20px;">
-    <!-- 見出し -->
-    <h3 class="display-5" style="font-family: 'Montserrat', sans-serif;">お気に入り</h3>
 
-    <!-- 検索バー -->
-    <form class="d-flex my-3">
-    <input class="form-control me-2 shadow-sm rounded-pill" type="search" 
-            placeholder="記事を検索..." aria-label="Search"style="padding: 10px 20px; font-size: 16px;">
-    <button class="btn btn-primary rounded-pill d-flex align-items-center justify-content-center" type="submit" 
-            style="background-coler: #C4D9FF; padding: 10px 20px; font-size: 16px; height: auto; min-width: 100px; color: #333333; border: none;">
-        検索
-    </button>
-    </form>
+    <!-- アカウント設定 セクション -->
+    <div class="p-3 mb-2 bg-body-tertiary rounded-3">
+        <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
+        <!-- タイトル -->
+        <h3 class="display-6 pt-3 ms-3 justify-content-center" style="font-family: 'Montserrat', sans-serif;">アカウント設定</h3>
 
-    <!-- 記事リスト -->
-    <div class="container mt-4">
-    <div class="row">
-        {% for article in articles %}
-        <div class="col-md-6 mb-3">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body">
-            <h6 class="card-subtitle mb-2 text-body-secondary">
-                投稿者：{{ article.contributor.user.username }}
-            </h6>
-            <h5 class="card-title">
-                <a class="card-link" href="{{ article.url }}" target="_blank">
-                {{ article.title }}
-                </a>
-            </h5>
-            <p class="card-text">
-                ({{ article.site_name }}) - {{ article.posted_at|date:"Y-m-d H:i" }}
-            </p>
+        <!-- アカウント情報のレイアウト -->
+        <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+            <!-- ユーザー情報（左側） -->
+            <div class="d-flex flex-column align-items-center">
+            <!-- ユーザーアイコン（大きく表示） -->
+            <img src="{{ request.user.profile_icon.url }}" 
+                alt="アイコン" 
+                class="rounded-circle mb-2" 
+                width="100" 
+                height="100" 
+                style="object-fit: cover;">
+            <!-- ユーザー名 -->
+            <p class="fw-bold mb-0">{{ user.username }}</p>
+            </div>
+
+            <!-- アクションボタン（右側） -->
+            <div class="d-flex flex-column gap-2">
+            <a href="{% url 'profile' %}" class="btn" style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
+                アカウントを編集する
+            </a>
+            <a href="{% url 'profile' %}" class="btn" style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
+                記事を掲載する
+            </a>
             </div>
         </div>
         </div>
-        {% empty %}
-        <div class="col-12">
-        <li>記事がありません。</li>
+    </div>
+
+    <!-- お気に入り セクション -->
+    <div class="p-3 mb-2 bg-body-tertiary rounded-3">
+    <div class="container-fluid border rounded-4 py-2" style="background-color: #FBFBFB; border-radius: 20px;">
+        <!-- 見出し -->
+        <h3 class="display-6 pt-3 ms-3" style="font-family: 'Montserrat', sans-serif;">お気に入り</h3>
+
+        <!-- 検索バー -->
+        <form class="d-flex my-3">
+        <input class="form-control me-2 shadow-sm rounded-pill" type="search" 
+                placeholder="記事を検索..." aria-label="Search"style="padding: 10px 20px; font-size: 16px;">
+        <button class="btn btn-primary rounded-pill d-flex align-items-center justify-content-center" type="submit" 
+                style="background-coler: #C4D9FF; padding: 10px 20px; font-size: 16px; height: auto; min-width: 100px; color: #333333; border: none;">
+            検索
+        </button>
+        </form>
+
+        <!-- 記事リスト -->
+        <div class="container mt-4 px-4">
+        <div class="row">
+            {% if favorite_articles %}
+                {% for favorite in favorite_articles %}
+                <div class="col-md-6 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        投稿者：{{ article.contributor.user.username }}
+                    </h6>
+                    <h5 class="card-title">
+                        <a class="card-link" href="{{ favorite.article.url }}" target="_blank">
+                        {{ favorite.article.title }}
+                        </a>
+                    </h5>
+                    <p class="card-text">
+                        ({{ favorite.article.site_name }}) - {{ favorite.article.posted_at|date:"Y-m-d H:i" }}
+                    </p>
+                    </div>
+                </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="col-12">
+                <li>お気に入りされた記事がありません。</li>
+            </div>
+            {% endif %}
+
         </div>
-        {% endfor %}
+        </div>
     </div>
-    </div>
+
+    {% endblock content %}
+
+<!-- ログインしていない場合 -->
+{% else %}
+<h2>
+    ログイン or ユーザー登録をして下さい
+</h2>
+<div>
+    <a href="{% url 'login' %}" class="btn btn-primary">ログイン</a>
+    <a href="{% url 'signup' %}" class="btn btn-secondary">登録</a> 
+{% endif %}
 </div>
-</div>
 
-<dev class="container text-center">
-<h3 >お気に入り</h3>
-<input placeholder="検索バー">
 
-<ul>
-    {% for article in articles %}
-    <li>
-        投稿者：{{article.contributor.account_name}} - ({{ article.posted_at|date:"Y-m-d H:i" }})
-        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
-        ({{ article.site_name }})
-    </li>
-    {% empty %}
-    <li>記事がありません。</li>
-    {% endfor %}
-</ul>
-
-<a href="{% url 'profile' %}">プロフィールを編集</a> |
-<a href="{% url 'logout' %}">ログアウト</a>
-</dev>
-{% endblock content %}

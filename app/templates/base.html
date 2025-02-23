@@ -13,11 +13,13 @@
     <!-- Montserrat フォントの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
     <title>
         {% block title %}
         {% endblock title %}
     </title>
-    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+
 </head>
 
 <body style="background-color: #E8F9FF;">
@@ -37,9 +39,15 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'toppage' %}">トップページ</a>
           </li>
+          {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'mypage' %}">マイページ</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}?next={% url 'mypage' %}">マイページ</a>
+          </li>
+          {% endif %}
         </ul>
   
         <!-- ユーザー情報（ログイン時のみ表示） -->
@@ -69,9 +77,6 @@
   <div class="container-xl">
       <div class="grid row-gap-3">
         <br>
-        <h1 class="justify-content-center text-ceter fw-bold">
-          {% block content_title %}{% endblock content_title %} 
-        </h1>
         {% block content %}
         {% include "_formhelpers.html" %}
         {% load static %} 

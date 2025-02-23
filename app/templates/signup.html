@@ -2,13 +2,16 @@
 
 {% block title %}新規登録画面{% endblock %}
 
-{% block content_title %}新規登録{% endblock content_title %} 
+
 {% load static %}
 {% block content %}
 {% comment %} {% include "_formhelpers.html" %}
 {% load static %} {% endcomment %}
 {% comment %} <img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ" > {% endcomment %}
 
+<div class="container d-flex justify-content-center align-items-center" style="width: 480px; height: 120px; overflow: hidden;">
+  <h3 class="display-5" style="font-family: 'Montserrat', sans-serif;">新規登録</h3>
+</div>
 
 <div class="container-field">
   <form method="post" enctype="multipart/form-data">
