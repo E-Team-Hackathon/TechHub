@@ -6,92 +6,94 @@
 {% include "_formhelpers.html" %}
 {% load static %}
 
-<div class="container d-flex justify-content-center align-items-center" 
-                style="width: 480px; height: 120px; overflow: hidden;">
-    <h3 class="display-3" style="font-family: 'Montserrat', sans-serif;">Mypage</h3>
+<div class="container d-flex justify-content-center align-items-center"
+  style="width: 480px; height: 120px; overflow: hidden;">
+  <h3 class="display-3" style="font-family: 'Montserrat', sans-serif;">Mypage</h3>
+</div>
+
+
+<!-- アカウント設定 セクション -->
+<div class="p-3 mb-2 bg-body-tertiary rounded-3">
+  <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
+    <!-- タイトル -->
+    <h3 class="display-6 pt-1 mx-auto justify-content-center" style="font-family: 'Montserrat', sans-serif;">アカウント設定
+    </h3>
+
+    <!-- アカウント情報 -->
+    <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+      <!-- ユーザー情報 -->
+      <div class="d-flex flex-column align-items-center">
+        <!-- ユーザーアイコン-->
+        <div class="mb-3">
+          <label for="formFile" class="form-label">アイコン画像</label>
+          <input class="form-control" type="file" id="formFile">
+        </div>
+        <img src="{{ request.user.profile_icon.url }}" alt="アイコン" class="rounded-circle mb-2" width="100" height="100"
+          style="object-fit: cover;">
+        <!-- ユーザー名 -->
+        アカウント名
+        <input type="username" class="form-control" id="InputUsername" placeholder="{{ user.username }}">
+        パスワード
+        <input type="username" class="form-control" id="InputUsername" placeholder="{{ user.password }}">
+      </div>
+
+      <!-- アクションボタン -->
+      <form>
+        <a href="#" class="btn text-center"
+          style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
+          保存
+        </a>
+        <a href="#" class="btn text-center"
+          style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
+          アカウント削除
+        </a>
+      </form>
     </div>
+  </div>
+</div>
 
+<!-- 投稿者設定 セクション -->
+<div class="p-3 mb-2 bg-body-tertiary rounded-3">
+  <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
+    <!-- タイトル -->
+    <h3 class="display-6 pt-1 mx-auto justify-content-center" style="font-family: 'Montserrat', sans-serif;">
+      投稿者設定
+    </h3>
 
-    <!-- アカウント設定 セクション -->
-    <div class="p-3 mb-2 bg-body-tertiary rounded-3">
-        <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
-        <!-- タイトル -->
-        <h3 class="display-6 pt-1 mx-auto justify-content-center" style="font-family: 'Montserrat', sans-serif;">アカウント設定</h3>
-
-        <!-- アカウント情報 -->
-        <div class="d-flex align-items-center justify-content-evenly flex-wrap">
-            <!-- ユーザー情報 -->
-            <div class="d-flex flex-column align-items-center">
-            <!-- ユーザーアイコン-->
-            <div class="mb-3">
-                <label for="formFile" class="form-label">アイコン画像</label>
-                <input class="form-control" type="file" id="formFile">
-            </div>
-            <img src="{{ request.user.profile_icon.url }}" 
-                alt="アイコン" 
-                class="rounded-circle mb-2" 
-                width="100" 
-                height="100" 
-                style="object-fit: cover;">
-            <!-- ユーザー名 -->
-            アカウント名
-            <input type="username" class="form-control" id="InputUsername" placeholder="{{ user.username }}" >
-            パスワード
-            <input type="username" class="form-control" id="InputUsername" placeholder="{{ user.password }}">
-            </div>
-
-            <!-- アクションボタン -->
-            <form>
-            <a href="#" class="btn text-center" style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
-                保存
-            </a>
-            <a href="#" class="btn text-center" style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
-                アカウント削除
-            </a>
-            </form>
+    <!-- 投稿者設定 -->
+    <form method="post" action="{% url 'profile' %}">
+      {% csrf_token %}
+      <fieldset class="row mb-3">
+        <legend class="col-form-label col-sm-2 pt-0">{{ form.feed.label }}</legend>
+        <div class="col-sm-10">
+          {{ form.feed }} <!-- ラジオボタンを自動生成 -->
+          {% if form.feed.errors %}
+          <div class="text-danger">
+            {{ form.feed.errors }}
+          </div>
+          {% endif %}
         </div>
+      </fieldset>
+      <div class="row mb-3">
+        <label for="{{ form.account_name.id_for_label }}" class="col-sm-2 col-form-label">
+          {{form.account_name.label}}
+        </label>
+        <div class="col-sm-10">
+          {{ form.account_name }}
+          {% if form.account_name.errors %}
+          <div class="text-danger">
+            {{ form.account_name.errors }}
+          </div>
+          {% endif %}
         </div>
-    </div>
-
-    <!-- 投稿者設定 セクション -->
-    <div class="p-3 mb-2 bg-body-tertiary rounded-3">
-        <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
-        <!-- タイトル -->
-        <h3 class="display-6 pt-1 mx-auto justify-content-center" style="font-family: 'Montserrat', sans-serif;">
-            投稿者設定
-        </h3>
-
-        <!-- 投稿者設定 -->
-        <form>
-            <fieldset class="row mb-3">
-              <legend class="col-form-label col-sm-2 pt-0">投稿しているサイト</legend>
-              <div class="col-sm-10">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                  <label class="form-check-label" for="gridRadios1">
-                    Qiita
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                  <label class="form-check-label" for="gridRadios2">
-                    Zenn
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-            <div class="row mb-3">
-                <label for="InputAccountID" class="col-sm-2 col-form-label">アカウント名</label>
-                <div class="col-sm-10">
-                  <input type="accountID" class="form-control" id="accountID">
-                </div>
-              </div>
-            <button type="submit" class="btn btn-primary justify-content-center"　style="background-color: #C4D9FF; color: #333333;">
-                保存する
-            </button>
-        </form>
-        </div>
-        </div>
-    </div>
+      </div>
+      <button type="submit" class="btn btn-primary justify-content-center"
+        style="background-color: #C4D9FF; color: #333333;">
+        保存する
+      </button>
+    </form>
+  </div>
+</div>
+</div>
 
 {% endblock content %}
