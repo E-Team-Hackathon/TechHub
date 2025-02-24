@@ -1,21 +1,37 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}ログイン画面{% endblock %}
 
-{% block content %}
-{% include "_formhelpers.html" %}
-<main>
-    <h2>ログインして下さい</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="InputEmail" class="form-label">ユーザー名</label>
-        <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Mattermost名" required>
+{% block content_title %}ログイン{% endblock content_title%}
 
-        <label for="InputPassword" class="form-label">パスワード</label>
-        <input type="password" class="form-control" id="InputPassword" name="password" required>
-        <div>
-            <button type="submit" class="btn btn-primary">ログイン</button>
+{% block content %}
+{% load static %}
+
+<div class="container d-flex justify-content-center align-items-center"
+    style="width: 480px; height: 120px; overflow: hidden;">
+    <h3 class="display-5" style="font-family: 'Montserrat', sans-serif;">ログイン</h3>
+</div>
+
+<div class="container justify-content-center">
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="row g-3">
+            <div class="mb-3">
+                <label for="InputEmail" class="form-label">ユーザー名</label>
+                <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Mattermost名"
+                    required>
+            </div>
+            <div class="mb-3">
+                <label for="InputPassword" class="form-label">パスワード</label>
+                <input type="password" class="form-control" id="InputPassword" name="password" required>
+            </div>
+            <div class="col-12 justify-content-center">
+                <button type="submit" class="btn btn-primary">
+                    ログイン
+                </button>
+            </div>
         </div>
+        {% comment %} {% with messages = get_flashed_messages() %} {% endcomment %}
         {% if messages %}
         <ul class="flashes">
             {% for message in messages %}
@@ -23,6 +39,11 @@
             {% endfor %}
         </ul>
         {% endif %}
+        {% comment %} {% endwith %} {% endcomment %}
     </form>
-</main>
+    <a role="button" href="{% url 'signup' %}" class="btn btn-link mt-3">
+        アカウントを作成する
+    </a>
+</div>
+
 {% endblock content %}

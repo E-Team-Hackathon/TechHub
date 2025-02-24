@@ -12,11 +12,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', SignUpView.as_view(template_name='signup.html'), name='signup'),
-    path(
-        'login/',
-       CustomLoginView.as_view(redirect_authenticated_user=True,template_name='login.html'),
-        name='login'
-    ),
+    path('login/',CustomLoginView.as_view(redirect_authenticated_user=True,template_name='login.html'),name='login'),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path('profile/', login_required(profile), name='profile'),
     path('mypage/', login_required(mypage), name='mypage'),
