@@ -2,26 +2,28 @@
 
 {% block title %}ログイン画面{% endblock %}
 
-{% block content_title %}ログイン{% endblock content_title%} 
+{% block content_title %}ログイン{% endblock content_title%}
 
 {% block content %}
 {% load static %}
 
-<div class="container d-flex justify-content-center align-items-center" style="width: 480px; height: 120px; overflow: hidden;">
+<div class="container d-flex justify-content-center align-items-center"
+    style="width: 480px; height: 120px; overflow: hidden;">
     <h3 class="display-5" style="font-family: 'Montserrat', sans-serif;">ログイン</h3>
 </div>
 
 <div class="container justify-content-center">
-    <form method="POST">
+    <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="row g-3">
             <div class="mb-3">
                 <label for="InputEmail" class="form-label">ユーザー名</label>
-                <input type="username" class="form-control" id="InputUsername" placeholder="Mattermost名" required >
+                <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Mattermost名"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="InputPassword" class="form-label">パスワード</label>
-                <input type="password" class="form-control" id="InputPassword" required>
+                <input type="password" class="form-control" id="InputPassword" name="password" required>
             </div>
             <div class="col-12 justify-content-center">
                 <button type="submit" class="btn btn-primary">
@@ -31,11 +33,11 @@
         </div>
         {% comment %} {% with messages = get_flashed_messages() %} {% endcomment %}
         {% if messages %}
-            <ul class="flashes">
+        <ul class="flashes">
             {% for message in messages %}
-                <li>{{ message }}</li>
+            <li>{{ message }}</li>
             {% endfor %}
-            </ul>
+        </ul>
         {% endif %}
         {% comment %} {% endwith %} {% endcomment %}
     </form>

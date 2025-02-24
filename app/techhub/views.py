@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect,render, get_object_or_404
 from django.contrib import messages
 from .models import Article, Contributor, Favorite
 
@@ -28,6 +28,15 @@ class TopPageView(ListView):
              context['favorite_articles'] = []
        
         return context
+    
+def article_search(request):
+    query = request.GET.get('query')
+
+    if query:
+        articles = Article.objects.all().filter(title__icontains=query)
+    else:
+        articles = Article.objects.all().order_by('-posted_at')
+    return render(request, 'toppage.html', {'articles':articles})
     
 @login_required
 def toggle_favorite(request,article_id):

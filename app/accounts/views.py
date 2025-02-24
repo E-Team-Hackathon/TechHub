@@ -1,4 +1,5 @@
-from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import authenticate, login, get_backends
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -18,6 +19,9 @@ class SignUpView(CreateView):
         try:
             user = form.save(commit=True)
 
+            backend = get_backends()[0]  # 最初の認証バックエンドを取得
+            user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+
             login(self.request, user) 
             messages.success(self.request, 'アカウントが作成されました！')
             
@@ -27,6 +31,24 @@ class SignUpView(CreateView):
         except Exception as e:
             form.add_error(None, f'登録中にエラーが発生しました: {str(e)}') 
             return self.form_invalid(form)
+        
+class CustomLoginView(LoginView):
+    def form_valid(self, form):
+        username = self.request.POST.get("username")
+        password = self.request.POST.get("password")
+        user = authenticate(self.request, username=username, password=password)
+
+        if user is None:
+            messages.error(self.request, "ログイン情報が間違っています")
+            return self.form_invalid(form)
+
+        backend = get_backends()[0]
+        user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+
+        login(self.request, user)
+        messages.success(self.request, f"{user.username} さん、ようこそ！")
+
+        return redirect(self.get_success_url())
 
 @login_required
 def profile(request):
