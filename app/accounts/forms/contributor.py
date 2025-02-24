@@ -6,6 +6,7 @@ class ContributorForm(forms.ModelForm):
         queryset=Feed.objects.all(),
         empty_label = '選択してください',
         label = '投稿しているサイト',
+        widget=forms.RadioSelect
     )
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
