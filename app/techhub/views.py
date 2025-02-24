@@ -16,10 +16,22 @@ class TopPageView(ListView):
     def get_context_data(self, **kwargs): #**kwargsは複数オブジェクトの辞書型データ
         #ListView の デフォルトのコンテキストデータを取得してsuper（）でさらに新しいオブジェクトを追加するための変数
         context = super().get_context_data(**kwargs)
-        #userとcontributorテーブルをuserカラムをもとに結合。usernameだけを取得
-        unique_users = Contributor.objects.select_related('user').values('user__username').distinct()
-        #辞書型リストのunique_usersをリストに変換
-        context['contributors'] = [user['user__username'] for user in unique_users]
+        # #userとcontributorテーブルをuserカラムをもとに結合。usernameだけを取得
+        # unique_users = Contributor.objects.select_related('user').values('user__username').distinct()
+        # #辞書型リストのunique_usersをリストに変換
+        # context['contributors'] = [user['user__username'] for user in unique_users]
+        
+        # Contributor テーブルから user に紐づいた情報を取得
+        contributors = Contributor.objects.select_related('user').all()
+
+        # ユーザー名とアイコン情報を context に含める
+        context['contributors'] = [
+            {
+                'username': contributor.user.username,
+                'profile_icon': contributor.user.profile_icon.url
+            }
+            for contributor in contributors
+        ]
 
          # **ログインしている場合、お気に入りの記事を取得**
         if self.request.user.is_authenticated:

@@ -21,13 +21,13 @@
   <div class="container-fluid border rounded-4 py-2" style="background-color: #FBFBFB; border-radius: 20px;">
     <h3 class="display-6 pt-3 ms-3" style="font-family: 'Montserrat', sans-serif;">Members</h3>
     <ul class="d-flex flex-wrap list-unstyled p-3">
-      {% for username in contributors %}
+      {% for contributor in contributors %}
       <li class="d-flex flex-column align-items-center me-3 mb-3">
-        <!-- ユーザーアイコン -->
-        <img src="{{ user.profile_icon.url }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
+        <!-- コントリビューターに紐づいているユーザーのアイコンを表示-->
+        <img src="{{ contributor.profile_icon }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
         <!-- ユーザー名 -->
         <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-center">
-          <h6>{{ username }}</h6>
+          <h6>{{ contributor.username }}</h6>
       </li>
       {% empty %}
       <li>登録された投稿者はいません。</li>
