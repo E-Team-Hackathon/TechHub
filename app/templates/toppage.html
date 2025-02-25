@@ -26,7 +26,7 @@
         <!-- コントリビューターに紐づいているユーザーのアイコンを表示-->
         <img src="{{ contributor.profile_icon }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
         <!-- ユーザー名 -->
-        <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-center">
+        <a href="#" class="text-decoration-none text-center">
           <h6>{{ contributor.username }}</h6>
       </li>
       {% empty %}
@@ -43,7 +43,7 @@
     <h3 class="display-6 pt-3 ms-3" style="font-family: 'Montserrat', sans-serif;">Articles</h3>
 
     <!-- 検索バー -->
-    <form method='GET' action="{% url 'search' %}" class="d-flex my-3">
+    <form method='GET' action="{% url 'search' %}" class="d-flex my-3" target="_self">
       <input type="text" name='query' id='id_query' class="form-control mx-3 shadow-sm rounded-pill"
         placeholder="記事を検索..." aria-label="Search" style="padding: 10px 20px; font-size: 16px;">
       <button type="submit" class="btn btn-primary rounded-pill d-flex align-items-center justify-content-center me-2"
