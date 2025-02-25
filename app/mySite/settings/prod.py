@@ -57,7 +57,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 
-# ✅  設定を追加（Django管理機能のエラーを防ぐ）
+# 設定を追加（Django管理機能のエラーを防ぐ）
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
