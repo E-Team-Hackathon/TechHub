@@ -5,12 +5,13 @@ User = get_user_model()
 
 class Feed(models.Model):
     feed_url = models.URLField(max_length=255)
-    feed_name = models.CharField(max_length=255)  
+    feed_name = models.CharField(max_length=32) 
+    created_at = models.DateTimeField(auto_now_add=True)
 
 class Contributor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     feed = models.ForeignKey(Feed,on_delete=models.CASCADE)
-    account_name = models.CharField(max_length=255)
+    account_name = models.CharField(max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -24,7 +25,7 @@ class Article(models.Model):
     contributor = models.ForeignKey(Contributor, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     url = models.URLField(max_length=255)
-    site_name = models.CharField(max_length=255)
+    site_name = models.CharField(max_length=32)
     posted_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
 
