@@ -80,9 +80,24 @@ def mypage(request):
     articles = Article.objects.all().order_by('-posted_at')  # 記事一覧（新着順）
     favorite_articles = Favorite.objects.filter(user=user).select_related('article')
 
+    if request.method == 'POST':
+        form = ContributorForm(request.POST)
+        if form.is_valid():
+            try:
+                contributor = form.save(commit=False)
+                contributor.user = user  
+                contributor.save()
+                messages.success(request, "投稿者登録が完了しました！")
+                return redirect("mypage") 
+            except Exception as e :
+                form.add_error(None, "このサイトとアカウント名の組み合わせは既に登録されています")
+    else:
+        form = ContributorForm() 
+
     return render(request, 'mypage.html', {
         'user': user,
         'contributors': contributors,
         'articles': articles,
-        'favorite_articles':favorite_articles
+        'favorite_articles':favorite_articles,
+        'form': form
     })
