@@ -54,7 +54,14 @@ LANGUAGE_CODE = 'ja'
 TIME_ZONE = 'Asia/Tokyo'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_ROOT = "/app/staticfiles/"
+
+
+# メディアファイルの保存先を定義
+MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = "/app/media/"
 
 
 # 設定を追加（Django管理機能のエラーを防ぐ）
@@ -116,15 +123,5 @@ LOGOUT_REDIRECT_URL = 'toppage'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# 開発環境では STATICFILES_DIRS を使用する
-if os.getenv("DJANGO_ENV") == "development":
-    STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# メディアファイルの保存先を定義
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
