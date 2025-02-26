@@ -11,7 +11,7 @@ SECRET_KEY = 'your-secret-key'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['mytechhub.blog']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
