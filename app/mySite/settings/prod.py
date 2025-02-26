@@ -12,6 +12,10 @@ SECRET_KEY = 'your-secret-key'
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://mytechhub.blog']
+CSRF_COOKIE_SECURE = True  # HTTPS で CSRF Cookie を送信
+SESSION_COOKIE_SECURE = True  # HTTPS でセッション Cookie を送信
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
