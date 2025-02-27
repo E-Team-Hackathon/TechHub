@@ -33,13 +33,18 @@ class SignUpView(CreateView):
             return self.form_invalid(form)
         
 class CustomLoginView(LoginView):
+    def form_invalid(self, form):
+        """ログイン失敗時にメッセージを表示し、同じページを再レンダリングする"""
+        messages.error(self.request, "ログイン情報が間違っています。")
+        return self.render_to_response(self.get_context_data(form=form))
+
     def form_valid(self, form):
         username = self.request.POST.get("username")
         password = self.request.POST.get("password")
         user = authenticate(self.request, username=username, password=password)
 
         if user is None:
-            messages.error(self.request, "ログイン情報が間違っています")
+            # messages.error(self.request, "ログイン情報が間違っています")
             return self.form_invalid(form)
 
         backend = get_backends()[0]

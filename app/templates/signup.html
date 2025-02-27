@@ -2,40 +2,24 @@
 
 {% block title %}新規登録画面{% endblock %}
 
-
 {% load static %}
 {% block content %}
-{% comment %} {% include "_formhelpers.html" %}
-{% load static %} {% endcomment %}
-{% comment %} <img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ" > {% endcomment %}
 
-<div class="container d-flex justify-content-center align-items-center" style="width: 480px; height: 120px; overflow: hidden;">
-  <h3 class="display-5" style="font-family: 'Montserrat', sans-serif;">新規登録</h3>
+<div class="container justify-content-center align-items-center" style="width: 480px; height: 120px;">
+  <h3 class="display-5 text-center" style="font-family: 'Montserrat', sans-serif;">新規登録</h3>
 </div>
 
-<div class="container-field">
+<div class="container justify-content-center w-50">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="d-flex flex-column mb-3">
       {{ form.as_p }}
     </dev>
-      <!-- <label for="InputUsername" class="form-label">ユーザー名</label>
-      <input type="text" class="form-control" id="InputUsername" name="username" placeholder="Mattermost名" required>
-      <label for="InputPassword" class="form-label">パスワード</label>
-      <input type="password" class="form-control" id="InputPassword1" name="password1" required>
-      <label for="InputPassword" class="form-label">パスワード確認</label>
-      <input type="password" class="form-control" id="InputPassword2" name="password2" required> -->
-      <div>
-        <button type="submit" class="btn btn-primary">登録する</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary w-50 px-5 border border-0 rounded-pill fw-bold" style="background-color: #C4D9FF; color: #333333; max-width: 300px;">
+            新規登録
+        </button>
       </div>
-
-    {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
 
     {% if form.errors %}
     <div class="alert alert-danger">
