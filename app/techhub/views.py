@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect,render, get_object_or_404
@@ -6,7 +7,7 @@ from .models import Article, Contributor, Favorite
 
 class TopPageView(ListView):
     model = Article
-    template_name = 'toppage.html'  # 表示用のテンプレート
+    template_name = 'toppage.html' 
     context_object_name = 'articles'
     paginate_by = 10  # 1ページあたりの記事表示数10
 
@@ -14,24 +15,31 @@ class TopPageView(ListView):
         return Article.objects.order_by('-posted_at')  # 記事を投稿順に取得
     
     def get_context_data(self, **kwargs): #**kwargsは複数オブジェクトの辞書型データ
-        #ListView の デフォルトのコンテキストデータを取得してsuper（）でさらに新しいオブジェクトを追加するための変数
         context = super().get_context_data(**kwargs)
-        # #userとcontributorテーブルをuserカラムをもとに結合。usernameだけを取得
-        # unique_users = Contributor.objects.select_related('user').values('user__username').distinct()
-        # #辞書型リストのunique_usersをリストに変換
-        # context['contributors'] = [user['user__username'] for user in unique_users]
-        
-        # Contributor テーブルから user に紐づいた情報を取得
-        contributors = Contributor.objects.select_related('user').all()
 
-        # ユーザー名とアイコン情報を context に含める
-        context['contributors'] = [
-            {
-                'username': contributor.user.username,
-                'profile_icon': contributor.user.profile_icon.url
-            }
-            for contributor in contributors
-        ]
+        # Contributor テーブルから user に紐づいた情報を取得（重複阻止）
+        unique_users = Contributor.objects.select_related('user').values(
+            'user_id', 'user__username', 'user__profile_icon').distinct()
+
+        # `profile_icon` に フルパスを設定する
+        contributors_list = []
+        for user in unique_users:
+            profile_icon_path = user.get('user__profile_icon')
+
+            # `profile_icon_path` が None でない場合、フルURLを作成
+            if profile_icon_path:
+                profile_icon_url = f"{settings.MEDIA_URL}{profile_icon_path}"
+            else:
+                profile_icon_url = f"{settings.STATIC_URL}img/default_profile.png"
+
+            contributors_list.append({
+                'user_id': user['user_id'],
+                'username': user['user__username'],
+                'profile_icon': profile_icon_url
+            })
+
+        context['contributors'] = contributors_list
+
 
          # **ログインしている場合、お気に入りの記事を取得**
         if self.request.user.is_authenticated:

@@ -63,15 +63,16 @@
     <!-- 投稿者設定 -->
     <form method="post" action="{% url 'profile' %}">
       {% csrf_token %}
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        <p>{{ form.non_field_errors.0 }}</p>
+      </div>
+      {% endif %}
+
       <fieldset class="row mb-3">
         <legend class="col-form-label col-sm-2 pt-0">{{ form.feed.label }}</legend>
         <div class="col-sm-10">
           {{ form.feed }} <!-- ラジオボタンを自動生成 -->
-          {% if form.feed.errors %}
-          <div class="text-danger">
-            {{ form.feed.errors }}
-          </div>
-          {% endif %}
         </div>
       </fieldset>
       <div class="row mb-3">
@@ -80,11 +81,6 @@
         </label>
         <div class="col-sm-10">
           {{ form.account_name }}
-          {% if form.account_name.errors %}
-          <div class="text-danger">
-            {{ form.account_name.errors }}
-          </div>
-          {% endif %}
         </div>
       </div>
       <button type="submit" class="btn btn-primary justify-content-center"
