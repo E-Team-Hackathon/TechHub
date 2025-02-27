@@ -3,93 +3,117 @@
 {% block title %}アカウント設定画面{% endblock %}
 
 {% block content %}
-{% include "_formhelpers.html" %}
 {% load static %}
 
-<div class="container d-flex justify-content-center align-items-center"
-  style="width: 480px; height: 120px; overflow: hidden;">
-  <h3 class="display-3" style="font-family: 'Montserrat', sans-serif;">Mypage</h3>
+<div class="container d-flex justify-content-center align-items-center" 
+                style="width: 480px; height: 120px; overflow: hidden;">
+    <h3 class="display-3" style="font-family: 'Montserrat', sans-serif;">設定</h3>
 </div>
-
-
-<!-- アカウント設定 セクション -->
 <div class="p-3 mb-2 bg-body-tertiary rounded-3">
-  <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
-    <!-- タイトル -->
-    <h3 class="display-6 pt-1 mx-auto justify-content-center" style="font-family: 'Montserrat', sans-serif;">アカウント設定
-    </h3>
+    <!-- アカウント設定 セクション -->
+    <div class="container-fluid border rounded-4 p-4 m-4" style="background-color: #FBFBFB; border-radius: 20px;">
+        <!-- タイトル -->
+        <h3 class="display-7 text-center mb-4" style="font-family: 'Montserrat', sans-serif;">アカウント情報</h3>
 
-    <!-- アカウント情報 -->
-    <div class="d-flex align-items-center justify-content-evenly flex-wrap">
-      <!-- ユーザー情報 -->
-      <div class="d-flex flex-column align-items-center">
-        <!-- ユーザーアイコン-->
-        <div class="mb-3">
-          <label for="formFile" class="form-label">アイコン画像</label>
-          <input class="form-control" type="file" id="formFile">
+        <!-- アカウント情報 -->
+        <div class="container text-center">
+            <!-- ユーザー情報 -->
+            <div class="row justify-content-center align-items-center">
+                <div class="col-4 mb-3">
+                    <label for="formFile" class="form-label fw-bold">アイコン画像</label>
+                </div>
+                <!-- ユーザーアイコン-->
+                <div class="col-4 mb-3 align-items-center">
+                    <img src="{{ request.user.profile_icon.url }}" alt="アイコン" 
+                    class="rounded-circle mb-2" 
+                    width="100" height="100" 
+                    style="object-fit: cover;">
+                    <br>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+                <!-- ユーザー名 -->
+                <div class="row justify-content-center">
+                    <label class="col-4 mb-3 fw-bold">アカウント名</label>
+                    <div class="col-4 mb-3">
+                        <h5>{{ user.username }}</h5>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <label class="col-4 mb-3 fw-bold">パスワード</label>
+                    <div class="col-4 mb-4">
+                        <h5>*******</h5>
+                    </div>
+                </div>
+
+                <!-- アクションボタン -->
+                <div class="row text-center">
+                    <form>
+                        <div class="col-12 mb-1">
+                            <a href="#" class="btn w-100 px-5 rounded-pill fw-bold" style="background-color: #C4D9FF; color: #333333; max-width: 300px;">
+                                保存する
+                            </a>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <a href="#" class="btn w-100 px-5 rounded-pill fw-bold" style="background-color:rgb(253, 123, 123); color: #333333; max-width: 300px;">
+                                アカウント削除
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <img src="{{ request.user.profile_icon.url }}" alt="アイコン" class="rounded-circle mb-2" width="100" height="100"
-          style="object-fit: cover;">
-        <!-- ユーザー名 -->
-        アカウント名
-        <input type="username" class="form-control" id="InputUsername" placeholder="{{ user.username }}">
-        パスワード
-        <input type="username" class="form-control" id="InputUsername" placeholder="{{ user.password }}">
-      </div>
-
-      <!-- アクションボタン -->
-      <form>
-        <a href="#" class="btn text-center"
-          style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
-          保存
-        </a>
-        <a href="#" class="btn text-center"
-          style="background-color: #C4D9FF; color: #333333; font-weight: bold; padding: 10px 20px; border-radius: 12px;">
-          アカウント削除
-        </a>
-      </form>
     </div>
-  </div>
-</div>
 
-<!-- 投稿者設定 セクション -->
-<div class="p-3 mb-2 bg-body-tertiary rounded-3">
-  <div class="container-fluid border rounded-4 py-4" style="background-color: #FBFBFB; border-radius: 20px;">
-    <!-- タイトル -->
-    <h3 class="display-6 pt-1 mx-auto justify-content-center" style="font-family: 'Montserrat', sans-serif;">
-      投稿者設定
-    </h3>
 
-    <!-- 投稿者設定 -->
-    <form method="post" action="{% url 'profile' %}">
-      {% csrf_token %}
-      {% if form.non_field_errors %}
-      <div class="alert alert-danger">
-        <p>{{ form.non_field_errors.0 }}</p>
-      </div>
-      {% endif %}
+    <!-- 投稿者設定 セクション -->
+    <div class="container-fluid border rounded-4 p-4 m-4" style="background-color: #FBFBFB; border-radius: 20px;">
+        <!-- タイトル -->
+        <h3 class="display-7 text-center mb-4" style="font-family: 'Montserrat', sans-serif;">
+            投稿者設定
+        </h3>
 
-      <fieldset class="row mb-3">
-        <legend class="col-form-label col-sm-2 pt-0">{{ form.feed.label }}</legend>
-        <div class="col-sm-10">
-          {{ form.feed }} <!-- ラジオボタンを自動生成 -->
-        </div>
-      </fieldset>
-      <div class="row mb-3">
-        <label for="{{ form.account_name.id_for_label }}" class="col-sm-2 col-form-label">
-          {{form.account_name.label}}
-        </label>
-        <div class="col-sm-10">
-          {{ form.account_name }}
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary justify-content-center"
-        style="background-color: #C4D9FF; color: #333333;">
-        保存する
-      </button>
-    </form>
-  </div>
-</div>
+        <!-- 投稿者設定フォーム -->
+        <form method="post" action="{% url 'profile' %}">
+            {% csrf_token %}
+            <!-- 投稿しているサイトの選択 -->
+            <div class="mb-4 row align-items-center justify-content-center">
+                <label for="siteRadio" class="col-sm-4 col-form-label text-center fw-bold">
+                    {{ form.feed.label }}
+                </label>
+                <div class="col-sm-4 d-flex flex-column text-center">
+                    {{ form.feed }} <!-- ラジオボタンを自動生成 -->
+                    {% if form.feed.errors %}
+                    <div class="text-danger">
+                      {{ form.feed.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- アカウントID -->
+            <div class="mb-4 row justify-content-center">
+                <label for="{{ form.account_name.id_for_label }}" class="col-sm-4 col-form-label text-center fw-bold">
+                    アカウントID
+                </label>
+                <div class="col-sm-4 text-center">
+                    {{ form.account_name }}
+                    {% if form.account_name.errors %}
+                    <div class="text-danger">
+                      {{ form.account_name.errors }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- 保存ボタン -->
+            <div class="text-center">
+                <button type="submit" class="btn w-100 px-5 rounded-pill fw-bold" style="background-color: #C4D9FF; color: #333333; max-width: 300px;">
+                    保存する
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock content %}

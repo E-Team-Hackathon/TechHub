@@ -2,32 +2,36 @@
 
 {% block title %}トップページ{% endblock %}
 
-{% block content_title %}{% endblock content_title %}
-
 {% block content %}
 {% load static %}
 
 <!-- ブランドロゴ -->
-<div class="container d-flex justify-content-center align-items-center"
+{% comment %} <div class="container d-flex justify-content-center align-items-center"
   style="width: 480px; height: 120px; overflow: hidden;">
   <a>
     <img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ"
-      style="width: 480px; height: 480px; object-fit: cover; object-position: center;">
+      style="width: 480px; height: 240px; object-fit: cover; object-position: center;">
   </a>
+</div> {% endcomment %}
+
+<!-- ブランドロゴ -->
+<div class="container d-flex justify-content-center align-items-center">
+  <img src="{% static 'img/logo_transparent.png' %}" alt="TechHubロゴ" class="img-fluid d-block" style="max-width: 480px;">
 </div>
 
 <!-- Members -->
 <div class="p-3 mb-2 bg-body-tertiary rounded-3">
   <div class="container-fluid border rounded-4 py-2" style="background-color: #FBFBFB; border-radius: 20px;">
     <h3 class="display-6 pt-3 ms-3" style="font-family: 'Montserrat', sans-serif;">Members</h3>
-    <ul class="d-flex flex-wrap list-unstyled p-3">
+    <ul class="d-flex flex-wrap p-3">
       {% for contributor in contributors %}
       <li class="d-flex flex-column align-items-center me-3 mb-3">
         <!-- コントリビューターに紐づいているユーザーのアイコンを表示-->
         <img src="{{ contributor.profile_icon }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
         <!-- ユーザー名 -->
-        <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-center"></a>
-        <h6>{{ contributor.username }}</h6>
+        <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-center">
+          <h6>{{ contributor.username }}</h6>
+        </a>
       </li>
       {% empty %}
       <li>登録された投稿者はいません。</li>
@@ -59,38 +63,26 @@
         <div class="col-md-6 mb-3">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <h6 class="card-subtitle mb-1 text-body-secondary">
-                投稿者：{{ article.contributor.user.username }}
-              </h6>
+              <h6 class="card-subtitle text-center">投稿者：{{ article.contributor.user.username }}</h6>
               <h5 class="card-title">
-                <a class="card-link" href="{{ article.url }}" target="_blank">
-                  {{ article.title }}
-                </a>
+                <a class="card-link" href="{{ article.url }}" target="_blank">{{ article.title }}</a>
               </h5>
-              <h6 class="card-text">
-                掲載日時：{{ article.posted_at|date:"Y-m-d H:i" }}
-              </h6>
-              <h5 class="card-text position-absolute bottom-0 end-0 me-2 mb-2">
-                {{ article.site_name }}
-              </h5>
+              <h6 class="card-text">掲載日時：{{ article.posted_at|date:"Y-m-d H:i" }}</h6>
+              <h5 class="card-text position-absolute bottom-0 end-0 me-2 mb-2">{{ article.site_name }}</h5>
             </div>
             {% if user.is_authenticated %}
             <form method="POST" action="{% url 'toggle_favorite' article.id %}">
               {% csrf_token %}
-              {% if article.id in favorite_articles %}
               <button type="submit"
                 class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
-                ★
+                {% if article.id in favorite_articles %}★{% else %}☆{% endif %}
               </button>
-              {% else %}
-              <button type="submit"
-                class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
-                ☆
-              </button>
-              {% endif %}
             </form>
             {% else %}
-            <a href="{% url 'login' %}?next={% url 'toppage' %}">ログインしてお気に入り登録</a>
+            <a href="{% url 'login' %}?next={% url 'toppage' %}"
+              class="btn btn-outline-dark position-absolute top-0 end-0 rounded-pill border border-0 fs-5">
+              ☆
+            </a>
             {% endif %}
           </div>
         </div>
@@ -106,7 +98,7 @@
 
 <!-- ページネーション -->
 {% if is_paginated %}
-<div>
+<div class="text-center pb-3">
   {% if page_obj.has_previous %}
   <a href="?page=1">最初</a>
   <a href="?page={{ page_obj.previous_page_number }}">前へ</a>

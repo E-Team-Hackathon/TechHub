@@ -9,7 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+    
     <!-- Montserrat フォントの読み込み -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
@@ -27,12 +27,12 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: #C5BAFF;">
     <div class="container-fluid py-2" style="height: 80px;">
       <!-- ブランドロゴ -->
-      <a class="navbar-brand d-flex align-items-center" href="{% url 'toppage' %}" style="width: 200px; height: 100px; overflow: hidden; border-radius: 20px;">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'toppage' %}" style="width: 220px; height: 80px; overflow: hidden; border-radius: 20px;">
         <img src="{% static 'img/logo_transparent.png' %}" 
              alt="TechHubロゴ" 
-             style="width: 200px; height: 200px; object-fit: cover; object-position: center;">
+             style="width: 200px; height: 100px; object-fit: cover; object-position: center;">
       </a>
-  
+
       <!-- トップページ、マイページ -->
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold">
@@ -55,17 +55,18 @@
           {% if request.user.is_authenticated %}
           <li class="nav-item me-2">
             <img src="{{ request.user.profile_icon.url }}" 
-                 alt="アイコン" 
-                 class="rounded-circle" 
-                 width="50" 
-                 height="50" 
-                 style="object-fit: cover;">
+                alt="アイコン" class="rounded-circle" 
+                width="50" height="50" style="object-fit: cover;">
           </li>
           <li class="navbar-text fw-bold me-3">
             {{ user.username }}
           </li>
           <li class="nav-item">
             <a class="nav-link fw-bold" href="{% url 'logout' %}">ログアウト</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link fw-bold" href="{% url 'signup' %}">アカウント作成</a>
           </li>
           {% endif %}
         </ul>
@@ -78,11 +79,9 @@
       <div class="grid row-gap-3">
         <br>
         {% block content %}
-        {% include "_formhelpers.html" %}
-        {% load static %} 
         {% endblock content %}
       </div>
   </div>
 
 </body>
-</hyml>
+</html>
