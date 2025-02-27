@@ -106,6 +106,13 @@
                 </div>
             </div>
 
+            
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger mx-auto col-6 justify-content-center">
+                <p>{{ form.non_field_errors.0 }}</p>
+            </div>
+            {% endif %}
+
             <!-- 保存ボタン -->
             <div class="text-center">
                 <button type="submit" class="btn w-100 px-5 rounded-pill fw-bold" style="background-color: #C4D9FF; color: #333333; max-width: 300px;">
