@@ -59,7 +59,7 @@ TIME_ZONE = 'Asia/Tokyo'
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_ROOT = "/app/staticfiles"
+STATIC_ROOT = "/app/static"
 
 
 # メディアファイルの保存先を定義
