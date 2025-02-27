@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.db import IntegrityError
 from django.views.generic.edit import CreateView
-
 from .forms.signup import SignUpForm
 from techhub.models import Article, Contributor, Favorite
 from .forms.contributor import ContributorForm  
@@ -89,7 +89,7 @@ def mypage(request):
                 contributor.save()
                 messages.success(request, "投稿者登録が完了しました！")
                 return redirect("mypage") 
-            except Exception as e :
+            except IntegrityError:
                 form.add_error(None, "このサイトとアカウント名の組み合わせは既に登録されています")
     else:
         form = ContributorForm() 

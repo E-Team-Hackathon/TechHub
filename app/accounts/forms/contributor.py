@@ -23,7 +23,7 @@ class ContributorForm(forms.ModelForm):
 
         # すでに同じ feed と account_name の組み合わせが存在するかチェック
         if Contributor.objects.filter(feed=feed, account_name=account_name).exists():
-            raise forms.ValidationError("このサイトとアカウント名の組み合わせは既に登録されています。")
+            self.add_error(None, "このサイトとアカウント名の組み合わせは既に登録されています。")
 
         return cleaned_data
 
