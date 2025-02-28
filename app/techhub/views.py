@@ -50,7 +50,36 @@ def article_search(request):
         articles = Article.objects.all().filter(title__icontains=query)
     else:
         articles = Article.objects.all().order_by('-posted_at')
-    return render(request, 'toppage.html', {'articles':articles})
+
+    unique_users = Contributor.objects.select_related('user').values(
+            'user_id', 'user__username', 'user__profile_icon').distinct()
+
+    contributors_list = []
+    for user in unique_users:
+        profile_icon_path = user.get('user__profile_icon')
+        if profile_icon_path:
+            profile_icon_url = f"{settings.MEDIA_URL}{profile_icon_path}"
+        else:
+            profile_icon_url = f"{settings.STATIC_URL}img/default_profile.png"
+
+            contributors_list.append({
+                'user_id': user['user_id'],
+                'username': user['user__username'],
+                'profile_icon': profile_icon_url
+            })
+
+    if request.user.is_authenticated:
+        favorite_articles = Favorite.objects.filter(user=request.user).values_list('article_id', flat=True)
+    else:
+        favorite_articles = []
+
+    context = {
+        'articles': articles,
+        'contributors': contributors_list,
+        'favorite_articles': favorite_articles,
+    }
+        
+    return render(request, 'toppage.html', context)
     
 @login_required
 def toggle_favorite(request,article_id):
