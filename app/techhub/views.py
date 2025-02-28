@@ -26,11 +26,10 @@ class TopPageView(ListView):
         for user in unique_users:
             user_instance = User.objects.get(id=user['user_id'])  
             profile_icon_url = user_instance.get_profile_icon_url() 
-
-        contributors_list.append({
-            'user_id': user['user_id'],
-            'username': user['user__username'],
-            'profile_icon': profile_icon_url
+            contributors_list.append({
+                'user_id': user['user_id'],
+                'username': user['user__username'],
+                'profile_icon': profile_icon_url
         })
 
         context['contributors'] = contributors_list
