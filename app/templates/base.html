@@ -54,7 +54,7 @@
         <ul class="navbar-nav ms-auto align-items-center">
           {% if request.user.is_authenticated %}
           <li class="nav-item me-2">
-            <img src="{{ request.user.profile_icon.url }}" 
+            <img src="{{ user.get_profile_icon_url }}" 
                 alt="アイコン" class="rounded-circle" 
                 width="50" height="50" style="object-fit: cover;">
           </li>
