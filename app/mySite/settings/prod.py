@@ -53,8 +53,20 @@ DATABASES = {
     }
 }
 
-LANGUAGE_CODE = 'ja'
+# AWS S3で使用する環境変数
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = "ahuehurnifer"
+AWS_S3_REGION_NAME = "ap-northeast-1"
+AWS_S3_CUSTOM_DOMAIN = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
 
+# デフォルトのストレージをS3に設定
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}"
+
+
+
+LANGUAGE_CODE = 'ja'
 TIME_ZONE = 'Asia/Tokyo'
 
 STATIC_URL = '/static/'
@@ -67,8 +79,8 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesSto
 
 
 # メディアファイルの保存先を定義
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # MEDIA_ROOT = "/app/media"
 
 

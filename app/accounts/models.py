@@ -4,6 +4,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+from django.conf import settings
+from storages.backends.s3boto3 import S3Boto3Storage
 
 class UserManager(BaseUserManager):
 
@@ -46,7 +48,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # upload_toパラメータで保存先をiconsディレクトリに指定。null=True, blank=Trueは画像の指定がない場合でもエラーをださない設定
-    profile_icon = models.ImageField(upload_to="icons", null=True, blank=True, default='icons/default_icon.jpg')
+    profile_icon = models.ImageField(
+        upload_to="icons/", 
+        null=True, 
+        blank=True, 
+        default='icons/default_icon.jpg'
+    )
 
     objects = UserManager()
 
@@ -58,3 +65,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     # 管理者などで区別がつきやすいようにusernameで表示
     def __str__(self):
         return self.username
+    
+    # S3上の画像URLを取得
+    def get_profile_icon_url(self):
+        if self.profile_icon:
+            return f"{settings.MEDIA_URL}{self.profile_icon.name}"
+        return f"{settings.MEDIA_URL}icons/default_icon.jpg"
