@@ -45,8 +45,8 @@ class TopPageView(ListView):
         if self.request.user.is_authenticated:
             context['favorite_articles'] = Favorite.objects.filter(user=self.request.user).values_list('article_id', flat=True)
         else:
-             context['favorite_articles'] = []
-       
+            context['favorite_articles'] = []
+        
         return context
     
 def article_search(request):
@@ -58,6 +58,14 @@ def article_search(request):
         articles = Article.objects.all().order_by('-posted_at')
     return render(request, 'toppage.html', {'articles':articles})
     
+def contributor_filtering(request, username=None):  # username をURLパスから取得
+    if username:
+        articles = Article.objects.filter(contributor__user__username__exact=username)  
+    else:
+        articles = Article.objects.all()  
+
+    return render(request, 'toppage.html', {'articles': articles})
+
 @login_required
 def toggle_favorite(request,article_id):
     article = get_object_or_404(Article, id=article_id)
