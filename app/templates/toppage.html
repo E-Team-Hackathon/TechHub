@@ -24,8 +24,8 @@
         <!-- コントリビューターに紐づいているユーザーのアイコンを表示-->
         <img src="{{ contributor.profile_icon }}" alt="アイコン" class="rounded-circle mb-2" width="64" height="64">
         <!-- ユーザー名 -->
-        <a href="{{ article.url }}" target="_blank" class="text-decoration-none text-center">
-          <h6>{{ contributor.username }}</h6>
+        <a href="{% url 'contributor_filtering_by_username' contributor.username %}">
+          {{ contributor.username }}
         </a>
       </li>
       {% empty %}
