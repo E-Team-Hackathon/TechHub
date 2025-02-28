@@ -68,11 +68,11 @@ def article_search(request):
         else:
             profile_icon_url = f"{settings.STATIC_URL}img/default_profile.png"
 
-            contributors_list.append({
-                'user_id': user['user_id'],
-                'username': user['user__username'],
-                'profile_icon': profile_icon_url
-            })
+        contributors_list.append({
+            'user_id': user['user_id'],
+            'username': user['user__username'],
+            'profile_icon': profile_icon_url
+        })
 
     if request.user.is_authenticated:
         favorite_articles = Favorite.objects.filter(user=request.user).values_list('article_id', flat=True)
