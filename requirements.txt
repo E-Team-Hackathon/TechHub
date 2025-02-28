@@ -9,3 +9,5 @@ feedparser
 python-dotenv
 Pillow
 pytz
+boto3
+django-storages[s3]

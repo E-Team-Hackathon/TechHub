@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect,render, get_object_or_404
 from django.contrib import messages
-from .models import Article, Contributor, Favorite
+from .models import Article, Contributor, Favorite, User
 
 class TopPageView(ListView):
     model = Article
@@ -21,22 +21,16 @@ class TopPageView(ListView):
         unique_users = Contributor.objects.select_related('user').values(
             'user_id', 'user__username', 'user__profile_icon').distinct()
 
-        # `profile_icon` に フルパスを設定する
+        # `profile_icon` にS3のフルURLを設定する
         contributors_list = []
         for user in unique_users:
-            profile_icon_path = user.get('user__profile_icon')
-
-            # `profile_icon_path` が None でない場合、フルURLを作成
-            if profile_icon_path:
-                profile_icon_url = f"{settings.MEDIA_URL}{profile_icon_path}"
-            else:
-                profile_icon_url = f"{settings.STATIC_URL}img/default_profile.png"
-
+            user_instance = User.objects.get(id=user['user_id'])  
+            profile_icon_url = user_instance.get_profile_icon_url() 
             contributors_list.append({
                 'user_id': user['user_id'],
                 'username': user['user__username'],
                 'profile_icon': profile_icon_url
-            })
+        })
 
         context['contributors'] = contributors_list
 
@@ -56,7 +50,36 @@ def article_search(request):
         articles = Article.objects.all().filter(title__icontains=query)
     else:
         articles = Article.objects.all().order_by('-posted_at')
-    return render(request, 'toppage.html', {'articles':articles})
+
+    unique_users = Contributor.objects.select_related('user').values(
+            'user_id', 'user__username', 'user__profile_icon').distinct()
+
+    contributors_list = []
+    for user in unique_users:
+        profile_icon_path = user.get('user__profile_icon')
+        if profile_icon_path:
+            profile_icon_url = f"{settings.MEDIA_URL}{profile_icon_path}"
+        else:
+            profile_icon_url = f"{settings.STATIC_URL}img/default_profile.png"
+
+        contributors_list.append({
+            'user_id': user['user_id'],
+            'username': user['user__username'],
+            'profile_icon': profile_icon_url
+        })
+
+    if request.user.is_authenticated:
+        favorite_articles = Favorite.objects.filter(user=request.user).values_list('article_id', flat=True)
+    else:
+        favorite_articles = []
+
+    context = {
+        'articles': articles,
+        'contributors': contributors_list,
+        'favorite_articles': favorite_articles,
+    }
+        
+    return render(request, 'toppage.html', context)
     
 def contributor_filtering(request, username=None):  # username をURLパスから取得
     if username:

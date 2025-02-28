@@ -28,7 +28,7 @@
     <div class="container-fluid py-2" style="height: 80px;">
       <!-- ブランドロゴ -->
       <a class="navbar-brand d-flex align-items-center" href="{% url 'toppage' %}" style="width: 220px; height: 80px; overflow: hidden; border-radius: 20px;">
-        <img src="{% static 'img/logo_transparent.png' %}" 
+        <img src="https://ahuehurnifer.s3.ap-northeast-1.amazonaws.com/logo_transparent.png" 
              alt="TechHubロゴ" 
              style="width: 200px; height: 100px; object-fit: cover; object-position: center;">
       </a>
@@ -54,7 +54,7 @@
         <ul class="navbar-nav ms-auto align-items-center">
           {% if request.user.is_authenticated %}
           <li class="nav-item me-2">
-            <img src="{{ request.user.profile_icon.url }}" 
+            <img src="{{ user.get_profile_icon_url }}" 
                 alt="アイコン" class="rounded-circle" 
                 width="50" height="50" style="object-fit: cover;">
           </li>
