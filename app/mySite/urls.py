@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from accounts.views import profile, SignUpView, CustomLoginView, mypage
-from techhub.views import toggle_favorite, article_search
+from techhub.views import toggle_favorite, article_search, contributor_filtering
 
 # MEDIA_URL のリクエストを MEDIA_ROOT にマッピングする
 from django.conf import settings
@@ -19,6 +19,8 @@ urlpatterns = [
     path('techhub/', include('techhub.urls')),
     path('search/', article_search, name='search'),
     path('favorite/<int:article_id>', login_required(toggle_favorite), name='toggle_favorite'),
+    path('contributor_filtering/', contributor_filtering, name='contributor_filtering'),
+    path('filtering/<str:username>/', contributor_filtering, name='contributor_filtering_by_username'),
 ]
 
 if settings.DEBUG:
