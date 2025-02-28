@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         upload_to="icons/", 
         null=True, 
         blank=True, 
-        default='icons/default_icon.jpg'
+        default='https://ahuehurnifer.s3.ap-northeast-1.amazonaws.com/icons/default_icon.jpg'
     )
 
     objects = UserManager()
