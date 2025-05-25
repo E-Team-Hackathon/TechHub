@@ -1,4 +1,4 @@
-# Tech Hub
+# 📚 Tech Hub
 **RareTECH受講生が投稿したQiita, Zenn等の記事を収集する記事プラットフォーム**
 
 ## DEMO
