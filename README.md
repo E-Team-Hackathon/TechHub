@@ -1,7 +1,29 @@
-## Usage
+# Tech Hub
+**RareTECH受講生が投稿したQiita, Zenn等の記事を収集する記事プラットフォーム**
 
-### 起動方法
+## DEMO
+![](img/tech-demo.gif)
 
+# 🧑🏼‍💻 Member
+### Frontend
+- [**kantarou-1209**](https://github.com/kantarou-1209)
+
+### Backend
+- [**めがねママ** (Leader)](https://github.com/megane575)
+- [**Taroimo-46**](https://github.com/Taroimo-46)
+
+### Infra
+- [**Fuji**](https://github.com/anton-fuji)
+
+# 🌱 Skill Stack
+| Frontend                                                                                                                                                   | Backend                                                                                                                                                         | Infra                                                                                                                                                               |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white" alt="HTML" height="30" /> <br/> <img src="https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=white" alt="CSS" height="30" /> <br/> <img src="https://img.shields.io/badge/Bootstrap-563D7C?logo=bootstrap&logoColor=white" alt="Bootstrap" height="30" /> | <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white" alt="Python" height="30" /> <br/> <img src="https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white" alt="Django" height="30" /> <br/> <img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white" alt="MySQL" height="30" /> | <img src="https://img.shields.io/badge/AWS-232F3E?logo=amazonaws&logoColor=white" alt="AWS" height="30" /> <br/> <img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker" height="30" /> <br/> <img src="https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=white" alt="Nginx" height="30" /> <br/> <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?logo=githubactions&logoColor=white" alt="GitHub Actions" height="30" /> |
+
+# ⚙️ インフラ構成図
+![AWS](img/Techhub-architecture.png)
+
+# 🛠️ Setup 
 1. **環境変数ファイルの準備**
 
    - `.env` ファイルをルートディレクトリに作成し、以下の情報を記載してください
